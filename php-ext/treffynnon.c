@@ -8,7 +8,7 @@
 #include "SAPI.h"
 #include "php_treffynnon.h"
 
-ZEND_BEGIN_ARG_INFO(arginfo_treffynnon, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_treffynnon, 0, 0, 1)
     ZEND_ARG_INFO(0, arg)
 ZEND_END_ARG_INFO()
 
@@ -21,7 +21,7 @@ const zend_function_entry treffynnon_functions[] = {
 
 /* {{{ PHP_MINFO_FUNCTION
 */
-PHP_MINFO_FUNCTION(ssdeep) {
+PHP_MINFO_FUNCTION(treffynnon) {
     php_info_print_table_start();
     php_info_print_table_row(2, PHP_TREFFYNNON_EXTNAME " Module", "enabled");
     php_info_print_table_row(2, "version", PHP_TREFFYNNON_VERSION);
@@ -69,14 +69,14 @@ zend_module_entry treffynnon_module_entry = {
     NULL /* PHP_MSHUTDOWN(treffynnon) */,
     NULL /* PHP_RINIT(treffynnon) */, /* Replace with NULL if there's nothing to do at request start */
     NULL /* PHP_RSHUTDOWN(treffynnon)*/, /* Replace with NULL if there's nothing to do at request end */
-    PHP_MINFO(ssdeep),
+    PHP_MINFO(treffynnon),
 #if ZEND_MODULE_API_NO >= 20010901
-    PHP_SSDEEP_VERSION,
+    PHP_TREFFYNNON_VERSION,
 #endif
     STANDARD_MODULE_PROPERTIES
 };
 /* }}} */
 
-#ifdef COMPILE_DL_SSDEEP
+#ifdef COMPILE_DL_TREFFYNNON
 ZEND_GET_MODULE(treffynnon)
 #endif
