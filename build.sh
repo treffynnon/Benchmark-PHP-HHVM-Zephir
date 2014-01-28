@@ -29,6 +29,14 @@ cd php-ext
 cd ..
 
 echo " "
+echo "Building plain C"
+echo "================"
+cd c
+./build.sh
+
+cd ..
+
+echo " "
 echo "####################################"
 echo "# Treffynnon build script complete #"
 echo "####################################"
