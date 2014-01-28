@@ -4,3 +4,8 @@ cd hhvm-ext
 ./build.sh
 
 cd ..
+
+cd php-ext
+./build.sh
+
+cd ..
