@@ -4,4 +4,6 @@ if [[ "$HPHP_HOME" == "" ]]; then
     echo 'export HPHP_HOME=/path/to/hhvm'
     exit 1
 fi
-$HPHP_HOME/hphp/hhvm/hhvm -c config.hdf -v "DynamicExtensionPath=`pwd`" test.php
+$HPHP_HOME/hphp/tools/hphpize/hphpize
+cmake .
+make
