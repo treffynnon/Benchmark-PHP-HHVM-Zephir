@@ -22,6 +22,16 @@ cd php-ext
 ./exec.sh
 
 cd ..
+
+
+echo " "
+echo "PHP: userland code"
+echo "=================="
+cd php-php
+./exec.sh
+
+cd ..
+
 echo " "
 echo " "
 echo "###################################"
