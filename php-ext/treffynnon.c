@@ -45,9 +45,10 @@ PHP_MINFO_FUNCTION(treffynnon) {
 }
 /* }}} */
 
-int mandelbrot (int arg)
+int mandelbrot (long arg)
 {
-    int w, h, bit_num = 0;
+    long w, h = 0;
+    int bit_num = 0;
     char byte_acc = 0;
     int i, iter = 50;
     double x, y, limit = 2.0;
@@ -55,7 +56,7 @@ int mandelbrot (int arg)
     
     w = h = arg;
 
-    printf("P4\n%d %d\n",w,h);
+//    printf("P4\n%d %d\n",w,h);
 
     for(y=0;y<h;++y) 
     {
@@ -97,10 +98,9 @@ int mandelbrot (int arg)
 /* {{{ proto string treffynnon(int arg)
 */
 PHP_FUNCTION(treffynnon) {
-    int *arg;
-    int arg_len;
+    long arg;
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &arg, &arg_len) == FAILURE) {
+    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "l", &arg) == FAILURE) {
         RETURN_NULL();
     }
 
