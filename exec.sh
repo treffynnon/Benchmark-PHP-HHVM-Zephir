@@ -47,6 +47,14 @@ cd c
 cd ..
 
 echo " "
+echo "C++"
+echo "==="
+cd cpp
+./exec.sh "$SEED"
+
+cd ..
+
+echo " "
 echo " "
 echo "###################################"
 echo "# Treffynnon exec script complete #"

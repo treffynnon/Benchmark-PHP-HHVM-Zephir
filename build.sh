@@ -37,6 +37,14 @@ cd c
 cd ..
 
 echo " "
+echo "Building plain C++"
+echo "=================="
+cd cpp
+./build.sh
+
+cd ..
+
+echo " "
 echo "####################################"
 echo "# Treffynnon build script complete #"
 echo "####################################"
