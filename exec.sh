@@ -22,6 +22,23 @@ cd hhvm-ext
 cd ..
 
 echo " "
+echo "HHVM: php userland code"
+echo "======================="
+cd hhvm-php
+echo "## No options"
+./exec.sh "$SEED"
+echo " "
+echo "## In a function"
+./exec_in_function.sh "$SEED"
+echo " "
+echo "## In a function and JITed"
+./exec_jitted.sh "$SEED"
+echo " "
+
+
+cd ..
+
+echo " "
 echo "PHP: Extension"
 echo "=============="
 cd php-ext

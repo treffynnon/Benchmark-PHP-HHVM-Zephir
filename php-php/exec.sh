@@ -3,4 +3,4 @@ ARG=1000
 if [ "$1" != "" ]; then
     ARG="$1"
 fi
-/usr/bin/env time /usr/bin/php5 -n -f mandelbrot.php "$ARG" >/dev/null
+/usr/bin/env time /usr/bin/php5 -n -f test.php "$ARG" >/dev/null
