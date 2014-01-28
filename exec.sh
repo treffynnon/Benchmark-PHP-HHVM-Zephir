@@ -33,6 +33,14 @@ cd php-php
 cd ..
 
 echo " "
+echo "C"
+echo "="
+cd c
+./exec.sh
+
+cd ..
+
+echo " "
 echo " "
 echo "###################################"
 echo "# Treffynnon exec script complete #"
