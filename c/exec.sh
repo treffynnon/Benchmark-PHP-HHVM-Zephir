@@ -1,2 +1,6 @@
 #! /usr/bin/env bash
-./mandelbrot 1000
+ARG=1000
+if [ "$1" != "" ]; then
+    ARG="$1"
+fi
+./mandelbrot "$ARG"
