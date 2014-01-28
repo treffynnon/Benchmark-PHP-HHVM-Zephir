@@ -1,4 +1,10 @@
 #! /usr/bin/env bash
+
+SEED=1000
+if [ "$1" != "" ]; then
+    SEED="$1"
+fi
+
 echo " "
 echo "Treffynnon benchmarker"
 echo "^^^^^^^^^^^^^^^^^^^^^^"
@@ -11,7 +17,7 @@ echo " "
 echo "HHVM: Extension"
 echo "==============="
 cd hhvm-ext
-./exec.sh
+./exec.sh "$SEED"
 
 cd ..
 
@@ -19,7 +25,7 @@ echo " "
 echo "PHP: Extension"
 echo "=============="
 cd php-ext
-./exec.sh
+./exec.sh "$SEED"
 
 cd ..
 
@@ -28,7 +34,7 @@ echo " "
 echo "PHP: userland code"
 echo "=================="
 cd php-php
-./exec.sh
+./exec.sh "$SEED"
 
 cd ..
 
@@ -36,7 +42,7 @@ echo " "
 echo "C"
 echo "="
 cd c
-./exec.sh
+./exec.sh "$SEED"
 
 cd ..
 

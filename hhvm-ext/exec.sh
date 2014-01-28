@@ -4,4 +4,8 @@ if [[ "$HPHP_HOME" == "" ]]; then
     echo 'export HPHP_HOME=/path/to/hhvm'
     exit 1
 fi
-$HPHP_HOME/hphp/hhvm/hhvm -c config.hdf -v "DynamicExtensionPath=`pwd`" test.php
+ARG=1000
+if [ "$1" != "" ]; then
+    ARG="$1"
+fi
+/usr/bin/env time $HPHP_HOME/hphp/hhvm/hhvm -c config.hdf -v "DynamicExtensionPath=`pwd`" test.php "$ARG"

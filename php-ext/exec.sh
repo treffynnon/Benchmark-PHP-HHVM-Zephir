@@ -1,2 +1,6 @@
 #! /usr/bin/env bash
-/usr/bin/php5 -n -d "extension=modules/treffynnon.so" -f test.php 
+ARG=1000
+if [ "$1" != "" ]; then
+    ARG="$1"
+fi
+/usr/bin/env time /usr/bin/php5 -n -d "extension=modules/treffynnon.so" -f test.php "$ARG"
