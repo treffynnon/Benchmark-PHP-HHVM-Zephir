@@ -1,3 +1,4 @@
 <?php
 
-treffynnon(1000);
+var_dump(treffynnon(1000));
+exit(0);

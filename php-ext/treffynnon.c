@@ -45,18 +45,16 @@ PHP_MINFO_FUNCTION(treffynnon) {
 }
 /* }}} */
 
-int mandelbrot (long arg)
+long mandelbrot (long arg)
 {
     long w, h = 0;
-    int bit_num = 0;
+    long bit_num = 0;
     char byte_acc = 0;
-    int i, iter = 50;
+    long i, iter = 50;
     double x, y, limit = 2.0;
     double Zr, Zi, Cr, Ci, Tr, Ti;
     
     w = h = arg;
-
-//    printf("P4\n%d %d\n",w,h);
 
     for(y=0;y<h;++y) 
     {
