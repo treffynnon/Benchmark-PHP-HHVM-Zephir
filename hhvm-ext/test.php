@@ -1,3 +1,3 @@
 <?php
 
-var_dump(treffynnon(1000));
+var_dump(treffynnon($argv[1]));
