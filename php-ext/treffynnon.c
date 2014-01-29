@@ -104,7 +104,7 @@ PHP_FUNCTION(treffynnon) {
 
     mandelbrot(arg);
 
-    RETURN_STRING("treffynnon function executed.", 0);
+    RETURN_STRING("Complete", 0);
 }
 /* }}} */
 

@@ -58,7 +58,7 @@ int64_t mandelbrot (int64_t arg)
 namespace HPHP {
     static String HHVM_FUNCTION(treffynnon, int64_t arg) {
         mandelbrot(arg);
-        return String("Function has returned something.");
+        return String("Complete");
     }
 
     class treffynnonExtension: public Extension {
