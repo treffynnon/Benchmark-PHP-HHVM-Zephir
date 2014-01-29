@@ -4,7 +4,7 @@ class Test
 {
     public static function treffynnon(long arg) -> string
     {
-        mandelbrot(arg);
+        my_mandelbrot(arg);
         return "Complete";
     }
 }
