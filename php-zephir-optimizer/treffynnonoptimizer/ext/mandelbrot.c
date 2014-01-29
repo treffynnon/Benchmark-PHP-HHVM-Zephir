@@ -1,4 +1,4 @@
-my_mandelbrot (long arg)
+mandelbrot (long arg)
 {
     long w, h = 0;
     long bit_num = 0;
