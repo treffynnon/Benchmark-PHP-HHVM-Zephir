@@ -45,6 +45,14 @@ cd cpp
 cd ..
 
 echo " "
+echo "Zephir: CBLOCK"
+echo "=============="
+cd php-zephir-cblock
+./build.sh
+
+cd ..
+
+echo " "
 echo "####################################"
 echo "# Treffynnon build script complete #"
 echo "####################################"

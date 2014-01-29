@@ -14,24 +14,25 @@ echo "# Treffynnon exec script begin #"
 echo "################################"
 echo " "
 echo " "
-echo "HHVM: Extension"
-echo "==============="
+echo "HHVM"
+echo "===="
+echo " "
+echo "## Extension"
 cd hhvm-ext
 ./exec.sh "$SEED"
 
 cd ..
 
 echo " "
-echo "HHVM: php userland code"
-echo "======================="
+echo "## PHP userland code"
 cd hhvm-php
-echo "## No options"
+echo "### No options"
 ./exec.sh "$SEED"
 echo " "
-echo "## In a function"
+echo "### In a function"
 ./exec_in_function.sh "$SEED"
 echo " "
-echo "## In a function and JITed"
+echo "### In a function and JITed"
 ./exec_jitted.sh "$SEED"
 echo " "
 
@@ -39,8 +40,10 @@ echo " "
 cd ..
 
 echo " "
-echo "PHP: Extension"
-echo "=============="
+echo "PHP"
+echo "==="
+echo " "
+echo "## Extension"
 cd php-ext
 ./exec.sh "$SEED"
 
@@ -48,8 +51,7 @@ cd ..
 
 
 echo " "
-echo "PHP: userland code"
-echo "=================="
+echo "## Userland code"
 cd php-php
 ./exec.sh "$SEED"
 
@@ -67,6 +69,16 @@ echo " "
 echo "C++"
 echo "==="
 cd cpp
+./exec.sh "$SEED"
+
+cd ..
+
+echo " "
+echo "Zephir"
+echo "======"
+echo " "
+echo "## CBLOCK"
+cd php-zephir-cblock
 ./exec.sh "$SEED"
 
 cd ..
