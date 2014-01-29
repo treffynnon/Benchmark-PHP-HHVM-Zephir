@@ -1,11 +1,4 @@
-// We are using CBLOCK syntax to directly include a C function in Zephir
-// See: https://github.com/phalcon/zephir/pull/21
-namespace Treffynnoncblock;
-
-// this is the beginning of the C block
-%{
-
-mandelbrot (long arg)
+my_mandelbrot (long arg)
 {
     long w, h = 0;
     long bit_num = 0;
@@ -50,20 +43,5 @@ mandelbrot (long arg)
                 bit_num = 0;
             }
         }
-    }
-}
-
-}%
-// this is the end of C Block
-
-class Test
-{
-    public static function treffynnon(long arg) -> string
-    {
-        // note that this C Block surrounding the call also
-        %{
-        mandelbrot(arg);
-        }%
-        return "Complete";
     }
 }
