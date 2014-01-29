@@ -1,4 +1,5 @@
-my_mandelbrot (long arg)
+#include<stdio.h>
+long my_mandelbrot (long arg)
 {
     long w, h = 0;
     long bit_num = 0;

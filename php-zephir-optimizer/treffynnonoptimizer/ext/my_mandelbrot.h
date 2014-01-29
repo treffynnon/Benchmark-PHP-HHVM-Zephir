@@ -1,1 +1,1 @@
-my_mandelbrot(long arg);
+long my_mandelbrot(long arg);
