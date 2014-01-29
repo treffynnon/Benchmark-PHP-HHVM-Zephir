@@ -1,6 +1,6 @@
 <?php
 
-class MandelbrotOptimizer
+class MandelbrotOptimizer extends OptimizerAbstract
 {
     public function optimize(array $expression, Call $call, CompilationContext $context)
     {
