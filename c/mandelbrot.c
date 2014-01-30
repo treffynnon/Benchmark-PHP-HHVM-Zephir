@@ -85,9 +85,12 @@ int main (int argc, char **argv)
     FILE *stream;
     int w, h = 0;
     char *opentype = "w";
-    char *filename = "mandelbrot.pbm";
+    char *filename = "mandelbrot.txt";
     const char *binary_ext = "pbm";
     int binary = 0;
+    int memory_stream = 1;
+        char *bp;
+        size_t size;
 
     w = h = atoi(argv[1]);
 
@@ -96,12 +99,22 @@ int main (int argc, char **argv)
         binary = 1;
     }
 
-    stream = fopen(filename, opentype);
+    if(1 == memory_stream) {
+        stream = open_memstream(&bp, &size);
+    } else {
+        stream = fopen(filename, opentype);
+    }
     if(stream == NULL)
         exit(-1);
 
     write_mandelbrot_to_stream(w, h, stream, binary);
 
     fclose(stream);
+
+    if(1 == memory_stream) {
+        char *ret = malloc(size);
+        sprintf(ret, "%s", bp);
+        printf("%s", ret);
+    }
     return 0;
 }
