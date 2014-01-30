@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<string.h>
 #include<stdarg.h>
+#include<stdlib.h>
 
 /*
  * Function adapted from example in The Computer
