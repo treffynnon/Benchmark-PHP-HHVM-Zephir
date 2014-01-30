@@ -112,9 +112,13 @@ int main (int argc, char **argv)
     fclose(stream);
 
     if(1 == memory_stream) {
+        // this is unnecessary
         char *ret = malloc(size);
         sprintf(ret, "%s", bp);
         printf("%s", ret);
+        // you would normally just return `bp`
+        // I am just testing that it goes into
+        // a variable nicely
     }
     return 0;
 }
