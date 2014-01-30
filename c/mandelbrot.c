@@ -1,17 +1,10 @@
-/* The Computer Language Benchmarks Game
- * http://benchmarksgame.alioth.debian.org/
-
-   contributed by Greg Buchholz
-   
-   for the debian (AMD) machine...
-   compile flags:  -O3 -ffast-math -march=athlon-xp -funroll-loops
-
-   for the gp4 (Intel) machine...
-   compile flags:  -O3 -ffast-math -march=pentium4 -funroll-loops
-*/
-
 #include<stdio.h>
 
+#include <string.h>
+#include <stdarg.h>
+#include <stdlib.h>
+#include <limits.h>
+ 
 int main (int argc, char **argv)
 {
     int w, h, bit_num = 0;
@@ -19,10 +12,17 @@ int main (int argc, char **argv)
     int i, iter = 50;
     double x, y, limit = 2.0;
     double Zr, Zi, Cr, Ci, Tr, Ti;
+    const char* ochars = " .:-;!/>)|&IH%*#";
+
+    FILE *txtfp, *binfp;
+    txtfp = fopen("mandelbrot.txt", "w");
+    binfp = fopen("mandelbrot.bmp", "wb");
+    if(txtfp == NULL || binfp == NULL)
+        exit(-1);
     
     w = h = atoi(argv[1]);
 
-    printf("P4\n%d %d\n",w,h);
+    fprintf(binfp,"P4\n%d %d\n",w,h);
 
     for(y=0;y<h;++y) 
     {
@@ -44,19 +44,29 @@ int main (int argc, char **argv)
                 
             ++bit_num; 
 
+            if(iter == i) {
+                putc(ochars[0], txtfp);
+            } else {
+                putc(ochars[i & 15], txtfp);
+            }
+
             if(bit_num == 8)
             {
-                putc(byte_acc,stdout);
+                putc(byte_acc,binfp);
                 byte_acc = 0;
                 bit_num = 0;
             }
             else if(x == w-1)
             {
                 byte_acc <<= (8-w%8);
-                putc(byte_acc,stdout);
+                putc(byte_acc,binfp);
                 byte_acc = 0;
                 bit_num = 0;
             }
         }
-    }   
+        putc('\n', txtfp);
+    }
+    fclose(txtfp);
+    fclose(binfp);
+    return 0;
 }
