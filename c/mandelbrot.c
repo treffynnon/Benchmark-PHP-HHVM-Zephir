@@ -1,10 +1,15 @@
 #include<stdio.h>
+#include<string.h>
+#include<stdarg.h>
 
-#include <string.h>
-#include <stdarg.h>
-#include <stdlib.h>
-#include <limits.h>
-
+/*
+ * Function adapted from example in The Computer
+ * Languages Benchmark Game
+ *
+ * ASCII switch added by Simon Holywell and inspired
+ * by code from Glenn Rhoads
+ * (http://docs.parrot.org/parrot/0.9.1/html/examples/pir/mandel.pir.html)
+ */
 int write_mandelbrot_to_stream(int w, int h, FILE *stream, int bitmap) {
     int bit_num = 0;
     char byte_acc = 0;
@@ -22,7 +27,7 @@ int write_mandelbrot_to_stream(int w, int h, FILE *stream, int bitmap) {
         {
             Zr = Zi = Tr = Ti = 0.0;
             Cr = (2.0*x/w - 1.5); Ci=(2.0*y/h - 1.0);
-        
+
             for (i=0;i<iter && (Tr+Ti <= limit*limit);++i)
             {
                 Zi = 2.0*Zr*Zi + Ci;
@@ -64,15 +69,18 @@ int write_mandelbrot_to_stream(int w, int h, FILE *stream, int bitmap) {
     return 0;
 }
 
+/*
+ * Function written by ThiefMaster@StackOverflow
+ * http://stackoverflow.com/a/5309508/461813
+ */
 const char *get_filename_ext(const char *filename) {
     const char *dot = strrchr(filename, '.');
     if(!dot || dot == filename) return "";
     return dot + 1;
 }
- 
+
 int main (int argc, char **argv)
 {
-
     FILE *stream;
     int w, h = 0;
     char *opentype = "w";
