@@ -4,25 +4,17 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include <limits.h>
- 
-int main (int argc, char **argv)
-{
-    int w, h, bit_num = 0;
+
+int write_mandelbrot_to_stream(int w, int h, FILE *stream, int bitmap) {
+    int bit_num = 0;
     char byte_acc = 0;
     int i, iter = 50;
     double x, y, limit = 2.0;
     double Zr, Zi, Cr, Ci, Tr, Ti;
     const char* ochars = " .:-;!/>)|&IH%*#";
 
-    FILE *txtfp, *binfp;
-    txtfp = fopen("mandelbrot.txt", "w");
-    binfp = fopen("mandelbrot.bmp", "wb");
-    if(txtfp == NULL || binfp == NULL)
-        exit(-1);
-    
-    w = h = atoi(argv[1]);
-
-    fprintf(binfp,"P4\n%d %d\n",w,h);
+    if(1 == bitmap)
+        fprintf(stream, "P4\n%d %d\n", w, h);
 
     for(y=0;y<h;++y) 
     {
@@ -38,35 +30,69 @@ int main (int argc, char **argv)
                 Tr = Zr * Zr;
                 Ti = Zi * Zi;
             }
-       
-            byte_acc <<= 1; 
-            if(Tr+Ti <= limit*limit) byte_acc |= 0x01;
-                
-            ++bit_num; 
 
-            if(iter == i) {
-                putc(ochars[0], txtfp);
+            if(1 == bitmap) {
+                byte_acc <<= 1; 
+                if(Tr+Ti <= limit*limit) byte_acc |= 0x01;
+
+                ++bit_num; 
+
+                if(bit_num == 8)
+                {
+                    putc(byte_acc, stream);
+                    byte_acc = 0;
+                    bit_num = 0;
+                }
+                else if(x == w-1)
+                {
+                    byte_acc <<= (8-w%8);
+                    putc(byte_acc, stream);
+                    byte_acc = 0;
+                    bit_num = 0;
+                }
             } else {
-                putc(ochars[i & 15], txtfp);
-            }
-
-            if(bit_num == 8)
-            {
-                putc(byte_acc,binfp);
-                byte_acc = 0;
-                bit_num = 0;
-            }
-            else if(x == w-1)
-            {
-                byte_acc <<= (8-w%8);
-                putc(byte_acc,binfp);
-                byte_acc = 0;
-                bit_num = 0;
+                if(iter == i) {
+                    putc(ochars[0], stream);
+                } else {
+                    putc(ochars[i & 15], stream);
+                }
             }
         }
-        putc('\n', txtfp);
+        if(0 == bitmap)
+            putc('\n', stream);
     }
-    fclose(txtfp);
-    fclose(binfp);
+    return 0;
+}
+
+const char *get_filename_ext(const char *filename) {
+    const char *dot = strrchr(filename, '.');
+    if(!dot || dot == filename) return "";
+    return dot + 1;
+}
+ 
+int main (int argc, char **argv)
+{
+
+    FILE *stream;
+    int w, h = 0;
+    char *opentype = "w";
+    char *filename = "mandelbrot.pbm";
+    const char *binary_ext = "pbm";
+    int binary = 0;
+
+    w = h = atoi(argv[1]);
+
+    if(get_filename_ext(filename) == binary_ext) {
+        opentype = "wb";
+        binary = 1;
+    }
+
+    stream = fopen(filename, opentype);
+    if(stream == NULL)
+        exit(-1);
+
+    write_mandelbrot_to_stream(w, h, stream, binary);
+
+    fclose(stream);
     return 0;
 }
