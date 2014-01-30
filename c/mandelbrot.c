@@ -89,11 +89,16 @@ int main (int argc, char **argv)
     const char *binary_ext = "pbm";
     int binary = 0;
     int memory_stream = 1;
-        char *bp;
-        size_t size;
+
+
+    // mem buffer tracking vars
+    char *bp;
+    size_t size;
 
     w = h = atoi(argv[1]);
 
+    // get the extension from the file path
+    // to determine type of stream to open (binary)
     if(get_filename_ext(filename) == binary_ext) {
         opentype = "wb";
         binary = 1;
