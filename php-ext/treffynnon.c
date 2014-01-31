@@ -3,6 +3,10 @@
 #endif
 
 #include<stdio.h>
+#include<string.h>
+#include<stdarg.h>
+#include<stdlib.h>
+#include<stdbool.h>
 
 #include "php.h"
 #include "php_ini.h"
@@ -10,16 +14,27 @@
 #include "SAPI.h"
 #include "php_treffynnon.h"
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_treffynnon, 0, 0, 1)
-    ZEND_ARG_INFO(0, arg)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_treffynnon_mandelbrot_to_file, 0, 0, 4)
+    ZEND_ARG_INFO(0, filename)
+    ZEND_ARG_INFO(0, w)
+    ZEND_ARG_INFO(0, h)
+    ZEND_ARG_INFO(0, binary_output)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_treffynnon_mandelbrot_to_mem, 0, 0, 3)
+    ZEND_ARG_INFO(0, w)
+    ZEND_ARG_INFO(0, h)
+    ZEND_ARG_INFO(0, binary_output)
 ZEND_END_ARG_INFO()
 
 /* {{{ treffynnon_functions[]
  */
 const zend_function_entry treffynnon_functions[] = {
-    PHP_FE(treffynnon, arginfo_treffynnon) {
+    PHP_FE(treffynnon_mandelbrot_to_file, arginfo_treffynnon_mandelbrot_to_file)
+    PHP_FE(treffynnon_mandelbrot_to_mem, arginfo_treffynnon_mandelbrot_to_mem) {
         NULL, NULL, NULL}
 };
+/* }}} */
 
 /* {{{ PHP_MINFO_FUNCTION
 */
@@ -45,16 +60,25 @@ PHP_MINFO_FUNCTION(treffynnon) {
 }
 /* }}} */
 
-long mandelbrot (long arg)
-{
-    long w, h = 0;
-    long bit_num = 0;
+
+/*
+ * Function adapted from example in The Computer
+ * Languages Benchmark Game
+ *
+ * ASCII switch added by Simon Holywell and inspired
+ * by code from Glenn Rhoads
+ * (http://docs.parrot.org/parrot/0.9.1/html/examples/pir/mandel.pir.html)
+ */
+bool write_mandelbrot_to_stream(int w, int h, FILE *stream, bool bitmap) {
+    int bit_num = 0;
     char byte_acc = 0;
-    long i, iter = 50;
+    int i, iter = 50;
     double x, y, limit = 2.0;
     double Zr, Zi, Cr, Ci, Tr, Ti;
-    
-    w = h = arg;
+    const char* ochars = " .:-;!/>)|&IH%*#";
+
+    if(bitmap)
+        fprintf(stream, "P4\n%d %d\n", w, h);
 
     for(y=0;y<h;++y) 
     {
@@ -62,7 +86,7 @@ long mandelbrot (long arg)
         {
             Zr = Zi = Tr = Ti = 0.0;
             Cr = (2.0*x/w - 1.5); Ci=(2.0*y/h - 1.0);
-        
+
             for (i=0;i<iter && (Tr+Ti <= limit*limit);++i)
             {
                 Zi = 2.0*Zr*Zi + Ci;
@@ -70,41 +94,104 @@ long mandelbrot (long arg)
                 Tr = Zr * Zr;
                 Ti = Zi * Zi;
             }
-       
-            byte_acc <<= 1; 
-            if(Tr+Ti <= limit*limit) byte_acc |= 0x01;
-                
-            ++bit_num; 
 
-            if(bit_num == 8)
-            {
-                putc(byte_acc,stdout);
-                byte_acc = 0;
-                bit_num = 0;
-            }
-            else if(x == w-1)
-            {
-                byte_acc <<= (8-w%8);
-                putc(byte_acc,stdout);
-                byte_acc = 0;
-                bit_num = 0;
+            if(bitmap) {
+                byte_acc <<= 1; 
+                if(Tr+Ti <= limit*limit) byte_acc |= 0x01;
+
+                ++bit_num; 
+
+                if(bit_num == 8)
+                {
+                    putc(byte_acc, stream);
+                    byte_acc = 0;
+                    bit_num = 0;
+                }
+                else if(x == w-1)
+                {
+                    byte_acc <<= (8-w%8);
+                    putc(byte_acc, stream);
+                    byte_acc = 0;
+                    bit_num = 0;
+                }
+            } else {
+                if(iter == i) {
+                    putc(ochars[0], stream);
+                } else {
+                    putc(ochars[i & 15], stream);
+                }
             }
         }
-    }   
+        if(!bitmap)
+            putc('\n', stream);
+    }
+    return true;
 }
 
-/* {{{ proto string treffynnon(int arg)
-*/
-PHP_FUNCTION(treffynnon) {
-    long arg;
+bool mandelbrot_to_file(const char *filename, const int w, const int h, bool binary_output) {
+    FILE *stream;
+    char *file_open_type = "w";
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "l", &arg) == FAILURE) {
+    if(binary_output) {
+        file_open_type = "wb";
+    }
+
+    stream = fopen(filename, file_open_type);
+    if(stream == NULL)
+        return false;
+
+    write_mandelbrot_to_stream(w, h, stream, binary_output);
+    fclose(stream);
+    return true;
+}
+
+char* mandelbrot_to_mem(const int w, const int h, bool binary_output) {
+    FILE *stream;
+    char *char_buffer;
+    size_t buffer_size = 0;
+
+    stream = open_memstream(&char_buffer, &buffer_size);
+    if(stream == NULL)
+        return "";
+
+    write_mandelbrot_to_stream(w, h, stream, binary_output);
+    fclose(stream);
+    return char_buffer;
+}
+
+/* {{{ proto bool treffynnon_mandelbrot_to_file(string filename, int w, int h, bool binary_output)
+*/
+PHP_FUNCTION(treffynnon_mandelbrot_to_file) {
+    char filename;
+    int filename_len;
+    long w,h;
+    bool binary_output;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "sllb", &filename, &filename_len, &w, &h, &binary_output) == FAILURE) {
         RETURN_NULL();
     }
 
-    mandelbrot(arg);
+    if(mandelbrot_to_file(filename, (int) w, (int) h, binary_output)) {
+        RETURN_TRUE;
+    } else {
+        RETURN_FALSE;
+    }
+}
+/* }}} */
 
-    RETURN_STRING("Complete", 0);
+/* {{{ proto string treffynnon_mandelbrot_to_mem(int w, int h, bool binary_output)
+*/
+PHP_FUNCTION(treffynnon_mandelbrot_to_mem) {
+    long w,h;
+    bool binary_output;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "llb", &w, &h, &binary_output) == FAILURE) {
+        RETURN_NULL();
+    }
+
+    // the 1 at the end here stops the code from trying to free our
+    // stream for us, which would throw a segfault!
+    RETURN_STRING(mandelbrot_to_mem((int) w, (int) h, binary_output), 1);
 }
 /* }}} */
 
