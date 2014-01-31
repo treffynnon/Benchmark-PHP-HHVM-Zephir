@@ -2,6 +2,7 @@
 #include<string.h>
 #include<stdarg.h>
 #include<stdlib.h>
+#include<stdbool.h>
 
 /*
  * Function adapted from example in The Computer
@@ -11,7 +12,7 @@
  * by code from Glenn Rhoads
  * (http://docs.parrot.org/parrot/0.9.1/html/examples/pir/mandel.pir.html)
  */
-int write_mandelbrot_to_stream(int w, int h, FILE *stream, int bitmap) {
+bool write_mandelbrot_to_stream(int w, int h, FILE *stream, bool bitmap) {
     int bit_num = 0;
     char byte_acc = 0;
     int i, iter = 50;
@@ -19,7 +20,7 @@ int write_mandelbrot_to_stream(int w, int h, FILE *stream, int bitmap) {
     double Zr, Zi, Cr, Ci, Tr, Ti;
     const char* ochars = " .:-;!/>)|&IH%*#";
 
-    if(1 == bitmap)
+    if(bitmap)
         fprintf(stream, "P4\n%d %d\n", w, h);
 
     for(y=0;y<h;++y) 
@@ -37,7 +38,7 @@ int write_mandelbrot_to_stream(int w, int h, FILE *stream, int bitmap) {
                 Ti = Zi * Zi;
             }
 
-            if(1 == bitmap) {
+            if(bitmap) {
                 byte_acc <<= 1; 
                 if(Tr+Ti <= limit*limit) byte_acc |= 0x01;
 
@@ -64,66 +65,62 @@ int write_mandelbrot_to_stream(int w, int h, FILE *stream, int bitmap) {
                 }
             }
         }
-        if(0 == bitmap)
+        if(!bitmap)
             putc('\n', stream);
     }
-    return 0;
+    return true;
 }
 
-/*
- * Function written by ThiefMaster@StackOverflow
- * http://stackoverflow.com/a/5309508/461813
+bool mandelbrot_to_file(const char *filename, const int w, const int h, bool binary_output) {
+    FILE *stream;
+    char *file_open_type = "w";
+
+    if(binary_output) {
+        file_open_type = "wb";
+    }
+
+    stream = fopen(filename, file_open_type);
+    if(stream == NULL)
+        return false;
+
+    write_mandelbrot_to_stream(w, h, stream, binary_output);
+    fclose(stream);
+    return true;
+}
+
+char* mandelbrot_to_mem(const int w, const int h, bool binary_output) {
+    FILE *stream;
+    char *char_buffer;
+    size_t buffer_size = 0;
+
+    stream = open_memstream(&char_buffer, &buffer_size);
+    if(stream == NULL)
+        return "";
+
+    write_mandelbrot_to_stream(w, h, stream, binary_output);
+    fclose(stream);
+    return char_buffer;
+}
+
+/**
+ * arg1 = size (int)
+ * arg2 = binary (1) or ascii (0) output (int) - defaults to 0
+ * arg3 = filename to write to - if not supplied prints to stdout
  */
-const char *get_filename_ext(const char *filename) {
-    const char *dot = strrchr(filename, '.');
-    if(!dot || dot == filename) return "";
-    return dot + 1;
-}
-
 int main (int argc, char **argv)
 {
-    FILE *stream;
     int w, h = 0;
-    char *opentype = "w";
-    char *filename = "mandelbrot.txt";
-    const char *binary_ext = "pbm";
-    int binary = 0;
-    int memory_stream = 1;
-
-
-    // mem buffer tracking vars
-    char *bp;
-    size_t size;
-
+    bool binary = false;
     w = h = atoi(argv[1]);
 
-    // get the extension from the file path
-    // to determine type of stream to open (binary)
-    if(get_filename_ext(filename) == binary_ext) {
-        opentype = "wb";
-        binary = 1;
+    if(argc >= 3 && atoi(argv[2]) == 1) {
+        binary = true;
     }
 
-    if(1 == memory_stream) {
-        stream = open_memstream(&bp, &size);
+    if(argc == 4) {
+        mandelbrot_to_file(argv[3], w, h, binary);
     } else {
-        stream = fopen(filename, opentype);
-    }
-    if(stream == NULL)
-        exit(-1);
-
-    write_mandelbrot_to_stream(w, h, stream, binary);
-
-    fclose(stream);
-
-    if(1 == memory_stream) {
-        // this is unnecessary
-        char *ret = malloc(size);
-        sprintf(ret, "%s", bp);
-        printf("%s", ret);
-        // you would normally just return `bp`
-        // I am just testing that it goes into
-        // a variable nicely
+        printf("%s", mandelbrot_to_mem(w, h, binary));
     }
     return 0;
 }
