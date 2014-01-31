@@ -113,11 +113,16 @@ namespace HPHP {
         return String(mandelbrot_to_mem((int) w, (int) h, binary_output));
     }
 
+    static bool HHVM_FUNCTION(treffynnon_mandelbrot_to_file, const String& filename, int64_t w, int64_t h, bool binary_output) {
+        return mandelbrot_to_file(filename.c_str(), w, h, binary_output);
+    }
+
     class treffynnonExtension: public Extension {
         public:
             treffynnonExtension(): Extension("treffynnon") { /* null */ }
             virtual void moduleInit() {
                 HHVM_FE(treffynnon_mandelbrot_to_mem);
+                HHVM_FE(treffynnon_mandelbrot_to_file);
                 loadSystemlib();
             }
     } s_treffynnon_extension;
