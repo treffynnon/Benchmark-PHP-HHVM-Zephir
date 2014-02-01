@@ -15,4 +15,4 @@ ARG=1000
 if [ "$1" != "" ]; then
     ARG="$1"
 fi
-/usr/bin/env time $HPHP_HOME/hphp/hhvm/hhvm -vEval.Jit=1 test.php "$ARG" > /dev/null
+/usr/bin/env time $HPHP_HOME/hphp/hhvm/hhvm -vEval.Jit=1 ../php-php/test.php "$ARG" > /dev/null

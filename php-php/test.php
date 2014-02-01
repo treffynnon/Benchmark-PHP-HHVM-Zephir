@@ -1,4 +1,9 @@
 <?php
+/**
+ * Adapted by Simon Holywell to allow for ASCII output as
+ * a return value or to file via streams
+ */
+
 /* The Computer Language Benchmarks Game
    http://benchmarksgame.alioth.debian.org/
    contributed by Thomas GODART (based on Greg Buchholz's C program) 
