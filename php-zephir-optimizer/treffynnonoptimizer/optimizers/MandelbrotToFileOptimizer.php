@@ -1,6 +1,6 @@
 <?php
 
-class MandelbrotToMemOptimizer extends OptimizerAbstract
+class MandelbrotToFileOptimizer extends OptimizerAbstract
 {
     public function optimize(array $expression, Call $call, CompilationContext $context)
     {
@@ -20,10 +20,10 @@ class MandelbrotToMemOptimizer extends OptimizerAbstract
 
 	$context->headersManager->add('my_mandelbrot');
 
-	$symbolVariable->setDynamicTypes('string');
+	$symbolVariable->setDynamicTypes('bool');
 
 	$resolvedParams = $call->getReadOnlyResolvedParams($expression['parameters'], $context, $expression);
-	$context->codePrinter->output('ZVAL_STRING(' . $symbolVariable->getRealName() . ', my_mandelbrot_to_mem(' . $resolvedParams[0] . ', ' . $resolvedParams[1] . ', ' . $resolvedParams[2] . '), 1);');
+	$context->codePrinter->output('ZVAL_BOOL(' . $symbolVariable->getRealName() . ', my_mandelbrot_to_file(' . $resolvedParams[0] . ', ' . $resolvedParams[1] . ', ' . $resolvedParams[2] . ', ' . $resolvedParams[3] . '));');
         return new CompiledExpression('variable', $symbolVariable->getRealName(), $expression);
     }
 }
