@@ -10,6 +10,7 @@ namespace Treffynnoncblock;
 #include<stdarg.h>
 #include<stdlib.h>
 #include<stdbool.h>
+#include "kernel/string.h"
 
 }%
 
@@ -100,7 +101,7 @@ bool mandelbrot_to_file(const char *filename, const int w, const int h, bool bin
     return true;
 }
 
-static char* mandelbrot_to_mem(const long w, const long h, bool binary_output) {
+char* mandelbrot_to_mem(const long w, const long h, bool binary_output) {
     FILE *stream;
     char *char_buffer;
     size_t buffer_size = 0;
@@ -123,20 +124,17 @@ class Test
     {
         string ret = "";
         %{
-	ret = string(mandelbrot_to_mem(w, h, binary_output));
+        ZVAL_STRING(ret, mandelbrot_to_mem(w, h, binary_output), 1);
         }%
-echo ret;
-        string ret2 = "SIMON";
-        return ret2;
+        return ret;
     }
 
     public static function treffynnon_mandelbrot_to_file(string filename, long w, long h, bool binary_output) -> bool
     {
+        bool ret = false;
         %{
-        char *f2 = filename;
-        mandelbrot_to_file(f2, w, h, binary_output);
+        ret = mandelbrot_to_file(Z_STRVAL_P(filename), w, h, binary_output);
         }%
-        bool ret2 = false;
-        return ret2;
+        return ret;
     }
 }
