@@ -27,13 +27,10 @@ $pack_format = 'c*';
 for ($y = 0 ; $y < $h ; ++$y)
 {
    $Ci = $y * $yfac - 1.0;
-
    for ($x = 0 ; $x < $w ; ++$x)
    {
       $Zr = 0; $Zi = 0; $Tr = 0; $Ti = 0.0;
-
       $Cr = $x * $xfac - 1.5;
-
       do {
          for ($i = 0 ; $i < $iter ; ++$i)
          {
@@ -54,6 +51,7 @@ for ($y = 0 ; $y < $h ; ++$y)
              $bit_num >>= 1;
           }
       } else {
+          var_dump($i);
           if($i == $iter) {
               fwrite($stream, $ochars[0]);
           } else {

@@ -11,8 +11,8 @@ class Test {
         int byte_acc = 0;
         int iter = 50;
 
-        int yfac = 0; let yfac = (2.0 / h);
-        int xfac = 0; let xfac = (2.0 / w);
+        double yfac = 0; let yfac = (2.0 / h);
+        double xfac = 0; let xfac = (2.0 / w);
 
         string curr_char = "", space = "";
         string ochars = " .:-;!/>)|&IH%*#";
@@ -25,12 +25,10 @@ class Test {
         int x = 0;
         int i = 0;
         while(y < h) {
-            let y += 1;
             double Ci = 0; let Ci = y * yfac - 1.0;
 
             let x = 0;
             while (x < w) {
-                let x += 1;
                 double Zr = 0;
                 double Zi = 0;
                 double Tr = 0;
@@ -41,9 +39,10 @@ class Test {
                 do {
                     let i = 0;
                     while (i < iter) {
-                        let i += 1;
+                        printf("Zr: %f\nZi: %f\nCi: %f", Zr, Zi, Ci);
+                        printf("\nFormula: %f\n", 2.0 * Zr * Zi + Ci);
                         let Zi = 2.0 * Zr * Zi + Ci;
-                        let Zr = $Tr - $Ti + $Cr;
+                        let Zr = Tr - Ti + Cr;
                         let Tr = Zr * Zr;
                         let Ti = Zi * Zi;
                         double a_tmp = 0;
@@ -52,6 +51,7 @@ class Test {
                         // but must be done with variables as the Zephir compiler
                         // doesn't understand how to do the comparison otherwise
                         if (a_tmp > iter_check) { break; }
+                        let i += 1;
                     }
                     if (a_tmp > iter_check) { break; }
                     let byte_acc += bit_num;
@@ -83,6 +83,7 @@ class Test {
                         fwrite(stream, curr_char);
                     }
                 }
+                let x += 1;
             }
             if(bitmap) {
                 if (bit_num !== 128) {
@@ -93,6 +94,7 @@ class Test {
             } else {
                 fwrite(stream, "\n");
             }
+            let y += 1;
         }
         return true;
     }
