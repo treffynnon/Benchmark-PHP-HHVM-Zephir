@@ -102,4 +102,4 @@ function treffynnon_mandelbrot_to_mem($w, $h, $binary_output) {
     return $ret;
 }
 
-var_dump(treffynnon_mandelbrot_to_mem((int) $argv[1], (int) $argv[1], false));
+echo treffynnon_mandelbrot_to_mem((int) $argv[1], (int) $argv[1], false);

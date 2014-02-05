@@ -83,6 +83,18 @@ cd php-zephir-cblock
 
 cd ..
 
+echo "## Optimizer"
+cd php-zephir-optimizer
+./exec.sh "$SEED"
+
+cd ..
+
+echo "## Zephir Lang"
+cd php-zephir
+./exec.sh "$SEED"
+
+cd ..
+
 echo " "
 echo " "
 echo "###################################"

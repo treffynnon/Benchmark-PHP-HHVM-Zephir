@@ -1,3 +1,3 @@
 <?php
 
-var_dump(Treffynnonoptimizer\Test::treffynnon_mandelbrot_to_mem((int) $argv[1], (int) $argv[1], false));
+echo Treffynnonoptimizer\Test::treffynnon_mandelbrot_to_mem((int) $argv[1], (int) $argv[1], false);

@@ -8,4 +8,4 @@ ARG=1000
 if [ "$1" != "" ]; then
     ARG="$1"
 fi
-/usr/bin/env time $HPHP_HOME/hphp/hhvm/hhvm ../php-php/test.php "$ARG" > /dev/null
+/usr/bin/env time $HPHP_HOME/hphp/hhvm/hhvm ../php-php/test.php "$ARG"

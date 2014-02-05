@@ -53,6 +53,22 @@ cd php-zephir-cblock
 cd ..
 
 echo " "
+echo "Zephir: Optimizer"
+echo "================="
+cd php-zephir-optimizer
+./build.sh
+
+cd ..
+
+echo " "
+echo "Zephir: Zephir lang"
+echo "==================="
+cd php-zephir
+./build.sh
+
+cd ..
+
+echo " "
 echo "####################################"
 echo "# Treffynnon build script complete #"
 echo "####################################"
