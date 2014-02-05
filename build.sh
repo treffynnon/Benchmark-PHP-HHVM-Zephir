@@ -37,14 +37,6 @@ cd c
 cd ..
 
 echo " "
-echo "Building plain C++"
-echo "=================="
-cd cpp
-./build.sh
-
-cd ..
-
-echo " "
 echo "Zephir: CBLOCK"
 echo "=============="
 cd php-zephir-cblock
