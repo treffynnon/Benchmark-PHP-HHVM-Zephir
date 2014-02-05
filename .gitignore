@@ -93,3 +93,5 @@ php-zephir-optimizer/treffynnonoptimizer/ext/
 !php-zephir-optimizer/treffynnonoptimizer/ext/my_mandelbrot.c
 php-zephir/treffynnon/.temp/
 php-zephir/treffynnon/ext/
+
+results.csv
