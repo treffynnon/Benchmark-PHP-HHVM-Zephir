@@ -89,5 +89,7 @@ php-zephir-cblock/treffynnoncblock/.temp/
 php-zephir-cblock/treffynnoncblock/ext/
 php-zephir-optimizer/treffynnonoptimizer/.temp/
 php-zephir-optimizer/treffynnonoptimizer/ext/
+!php-zephir-optimizer/treffynnonoptimizer/ext/my_mandelbrot.h
+!php-zephir-optimizer/treffynnonoptimizer/ext/my_mandelbrot.c
 php-zephir/treffynnon/.temp/
 php-zephir/treffynnon/ext/
