@@ -29,10 +29,7 @@ cd hhvm-php
 echo "### No options"
 ./exec.sh "$SEED"
 echo " "
-echo "### In a function"
-./exec_in_function.sh "$SEED"
-echo " "
-echo "### In a function and JITed"
+echo "### JITed"
 ./exec_jitted.sh "$SEED"
 echo " "
 
@@ -61,14 +58,6 @@ echo " "
 echo "C"
 echo "="
 cd c
-./exec.sh "$SEED"
-
-cd ..
-
-echo " "
-echo "C++"
-echo "==="
-cd cpp
 ./exec.sh "$SEED"
 
 cd ..

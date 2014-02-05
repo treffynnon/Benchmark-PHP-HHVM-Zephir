@@ -7,9 +7,8 @@ This benchmark is using the [Mandelbrot set](http://en.wikipedia.org/wiki/Mandel
 
 ## Mandelbrot
 
-The actual algorithm code is not mine and was written by contributors to [The Computer Language Benchmarks Game](http://benchmarksgame.alioth.debian.org):
+The actual algorithm code is not mine and was written by contributors to [The Computer Language Benchmarks Game](http://benchmarksgame.alioth.debian.org/u64/performance.php?test=mandelbrot):
 
- - [C++](http://benchmarksgame.alioth.debian.org/u64q/program.php?test=mandelbrot&lang=gpp&id=5#sourcecode)
  - [C](http://benchmarksgame.alioth.debian.org/u64q/program.php?test=mandelbrot&lang=gcc&id=2#sourcecode)
  - [PHP](http://benchmarksgame.alioth.debian.org/u64q/program.php?test=mandelbrot&lang=php&id=1#sourcecode)
 

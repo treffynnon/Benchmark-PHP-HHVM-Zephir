@@ -87,7 +87,7 @@ class Test {
                     if(i == iter) {
                         fwrite(stream, space);
                     } else {
-                        let curr_char = ochars[i & 15];
+                        let curr_char = ochars[(i + 1) & 15];
                         fwrite(stream, curr_char);
                     }
                 }

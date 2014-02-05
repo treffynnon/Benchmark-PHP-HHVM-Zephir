@@ -10,7 +10,7 @@ echo " "
 echo " "
 echo "Clearing previous builds"
 echo "========================"
-git clean -fd
+git clean -fdx
 
 echo " "
 echo "Building HHVM extension"

@@ -23,16 +23,14 @@ bool write_mandelbrot_to_stream(int w, int h, FILE *stream, bool bitmap) {
     if(bitmap)
         fprintf(stream, "P4\n%d %d\n", w, h);
 
-    for(y=0;y<h;++y) 
-    {
-        for(x=0;x<w;++x)
-        {
+    for(y=0;y<h;++y) {
+        for(x=0;x<w;++x) {
             Zr = Zi = Tr = Ti = 0.0;
-            Cr = (2.0*x/w - 1.5); Ci=(2.0*y/h - 1.0);
+            Cr = (2.0 * x/w - 1.5);
+            Ci = (2.0 * y/h - 1.0);
 
-            for (i=0;i<iter && (Tr+Ti <= limit*limit);++i)
-            {
-                Zi = 2.0*Zr*Zi + Ci;
+            for (i=0;i<iter && (Tr+Ti <= limit*limit);++i) {
+                Zi = 2.0 * Zr * Zi + Ci;
                 Zr = Tr - Ti + Cr;
                 Tr = Zr * Zr;
                 Ti = Zi * Zi;
@@ -40,7 +38,7 @@ bool write_mandelbrot_to_stream(int w, int h, FILE *stream, bool bitmap) {
 
             if(bitmap) {
                 byte_acc <<= 1; 
-                if(Tr+Ti <= limit*limit) byte_acc |= 0x01;
+                if(Tr+Ti <= limit * limit) byte_acc |= 0x01;
 
                 ++bit_num; 
 
