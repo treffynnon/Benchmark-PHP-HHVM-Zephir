@@ -3,57 +3,65 @@ namespace Treffynnon;
 class Test {
     public static function write_mandelbrot_to_stream(int w, int h, stream, bool bitmap) -> bool
     {
+        int bit_num = 128,
+            byte_acc = 0,
+            iter = 50,
+            y = 0,
+            x = 0,
+            i = 0;
+
+        double Ci = 0,
+               Cr = 0,
+               Zr = 0,
+               Zi = 0,
+               Tr = 0,
+               Ti = 0.0,
+               yfac = 0,
+               xfac = 0,
+               iter_check = 4.0,
+               Tr_and_Ti = 0.0;
+
+        string curr_char = "",
+               space = "",
+               ochars = " .:-;!/>)|&IH%*#",
+               pack_format = "c*";
+
         if(bitmap) {
             fprintf(stream, "P4\n%d %d\n", w, h);
         }
 
-        int bit_num = 128;
-        int byte_acc = 0;
-        int iter = 50;
+        let yfac = (2.0 / h);
+        let xfac = (2.0 / w);
 
-        double yfac = 0; let yfac = (2.0 / h);
-        double xfac = 0; let xfac = (2.0 / w);
-
-        string curr_char = "", space = "";
-        string ochars = " .:-;!/>)|&IH%*#";
         let space = ochars[0];
-        string pack_format = "c*";
 
-        double iter_check = 4.0;
-
-        int y = 0;
-        int x = 0;
-        int i = 0;
         while(y < h) {
-            double Ci = 0; let Ci = y * yfac - 1.0;
+            let Ci = y * yfac - 1.0;
 
             let x = 0;
             while (x < w) {
-                double Zr = 0;
-                double Zi = 0;
-                double Tr = 0;
-                double Ti = 0.0;
+                let Zr = 0;
+                let Zi = 0;
+                let Tr = 0;
+                let Ti = 0.0;
 
-                double Cr = 0; let Cr = x * xfac - 1.5;
+                let Cr = x * xfac - 1.5;
 
                 do {
                     let i = 0;
                     while (i < iter) {
-                        printf("Zr: %f\nZi: %f\nCi: %f", Zr, Zi, Ci);
-                        printf("\nFormula: %f\n", 2.0 * Zr * Zi + Ci);
                         let Zi = 2.0 * Zr * Zi + Ci;
                         let Zr = Tr - Ti + Cr;
                         let Tr = Zr * Zr;
                         let Ti = Zi * Zi;
-                        double a_tmp = 0;
-                        let a_tmp = Tr + Ti;
+                        let Tr_and_Ti = Tr + Ti;
                         // this would normally be written as if((Tr+Ti) > 4.0)
                         // but must be done with variables as the Zephir compiler
                         // doesn't understand how to do the comparison otherwise
-                        if (a_tmp > iter_check) { break; }
+                        if (Tr_and_Ti > iter_check) { break; }
                         let i += 1;
                     }
-                    if (a_tmp > iter_check) { break; }
+                    if (Tr_and_Ti > iter_check) { break; }
                     let byte_acc += bit_num;
                 } while (false);
 
@@ -122,12 +130,19 @@ class Test {
         return ret;
     }
 
-    public static function treffynnon_mandelbrot_to_file(string filename, long w, long h, bool binary_output) -> bool
+    public static function treffynnon_mandelbrot_to_file(string filename, int w, int h, bool binary_output) -> bool
     {
-        bool ret = false;
-        %{
-        ret = mandelbrot_to_file(Z_STRVAL_P(filename), w, h, binary_output);
-        }%
-        return ret;
+        var stream; // it is a resource so we can use a static type here unfortunately in Zephir
+        string file_open_type = "w";
+        if(binary_output) {
+            let file_open_type = 'wb';
+        }
+
+        let stream = fopen(filename, file_open_type);
+        if(stream === false) {
+            return false;
+        }
+
+        return self::write_mandelbrot_to_stream(w, h, stream, binary_output);
     }
 }
