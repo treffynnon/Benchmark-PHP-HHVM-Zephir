@@ -13,7 +13,8 @@ if [ "$3" != "" ]; then
     OUTPUT="$3"
 fi
 
-echo '"Dir", "Title", "Seed", "CPU - user mode", "CPU - kernel mode", "Time elapsed", "Percentage CPU for job", "Mem: Shared text space (Kb)", "Mem: Unshared data area (Kb)", "Mem: Max resident set size (Kb)", "I/O: FS inputs", "I/O: FS outputs", "Major page faults", "Minor page faults", "Swaps"\n' > "$OUTPUT"
+# Print CSV headers out
+echo '"Dir", "Title", "Seed", "CPU - user mode", "CPU - kernel mode", "Time elapsed", "Percentage CPU for job", "Mem: Shared text space (Kb)", "Mem: Unshared data area (Kb)", "Mem: Max resident set size (Kb)", "I/O: FS inputs", "I/O: FS outputs", "Major page faults", "Minor page faults", "Swaps"' > "$OUTPUT"
 
 for ((n=0;n<$ITERATIONS;n++))
 do
