@@ -5,6 +5,40 @@ if [ "$1" != "" ]; then
     SEED="$1"
 fi
 
+CSV=false;
+
+if [ "$2" == "csv" ]; then
+    CSV=true
+fi
+
+TIMEFORMAT="%Uuser %Ssystem %Eelapsed %PCPU (%Xtext+%Ddata %Mmax)k
+%Iinputs+%Ooutputs (%Fmajor+%Rminor)pagefaults %Wswaps"
+
+# Function from SO answer by James Roth
+# http://stackoverflow.com/a/2990533/461813
+echoerr() {
+    echo -ne "$@" 1>&2;
+}
+
+exec_dir() {
+    SCRIPT="exec.sh"
+
+    if [ "" != "$3" ]; then
+        SCRIPT="$3"
+    fi
+    echo " "
+    echo "$1"
+    cd "$2"
+    echoerr "\"$2\", \"$1\", \"$SEED\", "
+    ./$SCRIPT "$SEED" "$TIMEFORMAT"
+
+    cd ..
+}
+
+if [ $CSV ]; then
+    TIMEFORMAT='"%U", "%S", "%E", "%P", "%X", "%D", "%M", "%I", "%O", "%F", "%R", "%W"'
+fi
+
 echo " "
 echo "Treffynnon benchmarker"
 echo "^^^^^^^^^^^^^^^^^^^^^^"
@@ -16,73 +50,31 @@ echo " "
 echo " "
 echo "HHVM"
 echo "===="
-echo " "
-echo "## Extension"
-cd hhvm-ext
-./exec.sh "$SEED"
+exec_dir "## Extension" hhvm-ext
 
-cd ..
-
-echo " "
 echo "## PHP userland code"
-cd hhvm-php
-echo "### No options"
-./exec.sh "$SEED"
-echo " "
-echo "### JITed"
-./exec_jitted.sh "$SEED"
-echo " "
-
-
-cd ..
+exec_dir "### No options" hhvm-php
+exec_dir "### JITed" hhvm-php exec_jitted.sh
 
 echo " "
 echo "PHP"
 echo "==="
-echo " "
-echo "## Extension"
-cd php-ext
-./exec.sh "$SEED"
+exec_dir "## Extension" php-ext
+exec_dir "## Userland code" php-php
 
-cd ..
-
-
-echo " "
-echo "## Userland code"
-cd php-php
-./exec.sh "$SEED"
-
-cd ..
 
 echo " "
 echo "C"
 echo "="
-cd c
-./exec.sh "$SEED"
-
-cd ..
+exec_dir "" c
 
 echo " "
 echo "Zephir"
 echo "======"
 echo " "
-echo "## CBLOCK"
-cd php-zephir-cblock
-./exec.sh "$SEED"
-
-cd ..
-
-echo "## Optimizer"
-cd php-zephir-optimizer
-./exec.sh "$SEED"
-
-cd ..
-
-echo "## Zephir Lang"
-cd php-zephir
-./exec.sh "$SEED"
-
-cd ..
+exec_dir "## CBLOCK" php-zephir-cblock
+exec_dir "## Optimizer" php-zephir-optimizer
+exec_dir "## Zephir Lang" php-zephir
 
 echo " "
 echo " "

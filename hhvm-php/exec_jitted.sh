@@ -15,4 +15,7 @@ ARG=1000
 if [ "$1" != "" ]; then
     ARG="$1"
 fi
-/usr/bin/env time $HPHP_HOME/hphp/hhvm/hhvm -vEval.Jit=1 ../php-php/test.php "$ARG"
+if [ "$2" != "" ]; then
+    TIMEFORMAT="--format=$2"
+fi
+/usr/bin/env time "$TIMEFORMAT" $HPHP_HOME/hphp/hhvm/hhvm -vEval.Jit=1 ../php-php/test.php "$ARG"
