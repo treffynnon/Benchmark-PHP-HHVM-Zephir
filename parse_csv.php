@@ -51,7 +51,7 @@ foreach($tmp as $lang => $records) {
 }
 unset($column, $tmp);
 
-if(($fh = fopen('parsed_' . $filename, 'w')) !== false) {
+if(($fh = fopen($out_filename, 'w')) !== false) {
     foreach($output as $line) {
         foreach($line as $key => $field) {
             if(is_string($field)) {
