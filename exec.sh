@@ -5,14 +5,10 @@ if [ "$1" != "" ]; then
     SEED="$1"
 fi
 
-CSV=false;
-
-if [ "$2" == "csv" ]; then
-    CSV=true
+TIMEFORMAT=""
+if [ "$2" != "" ]; then
+    TIMEFORMAT="$2"
 fi
-
-TIMEFORMAT="%Uuser %Ssystem %Eelapsed %PCPU (%Xtext+%Ddata %Mmax)k
-%Iinputs+%Ooutputs (%Fmajor+%Rminor)pagefaults %Wswaps"
 
 # Function from SO answer by James Roth
 # http://stackoverflow.com/a/2990533/461813
@@ -29,15 +25,11 @@ exec_dir() {
     echo " "
     echo "$1"
     cd "$2"
-    echoerr "\"$2\", \"$1\", \"$SEED\", "
+    echoerr "\"$2\", \"$1\", $SEED, "
     ./$SCRIPT "$SEED" "$TIMEFORMAT"
 
     cd ..
 }
-
-if [ $CSV ]; then
-    TIMEFORMAT='"%U", "%S", "%E", "%P", "%X", "%D", "%M", "%I", "%O", "%F", "%R", "%W"'
-fi
 
 echo " "
 echo "Treffynnon benchmarker"
