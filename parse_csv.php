@@ -1,9 +1,22 @@
 <?php
 
+if(!isset($argv[1])) {
+    echo "Supply a file to be parsed.\n";
+    exit(1);
+}
+
+if(!is_readable($argv[1])) {
+    echo "Supplied file path does not exist or is not readable.\n";
+    exit(1);
+}
+
+echo "Parsing the file...\n";
+
 $tmp = $output = [];
 $row = 0;
 $columns = 0;
-$filename = 'results_20x200.csv';
+$filename = $argv[1];
+$out_filename = 'parsed_' . $filename;
 if(($fh = fopen($filename, 'r')) !== false) {
     while(($data = fgetcsv($fh, 2000, ",")) !== false) {
         if(++$row == 1) {
@@ -49,6 +62,9 @@ if(($fh = fopen('parsed_' . $filename, 'w')) !== false) {
     }
 }
 fclose($fh);
+
+echo "Complete.\n";
+echo "Exported to: " . ((realpath($out_filename)) ?: "Error writing file.") . "\n";
 
 
 /**
