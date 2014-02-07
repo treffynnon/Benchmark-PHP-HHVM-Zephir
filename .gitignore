@@ -95,3 +95,5 @@ php-zephir/treffynnon/.temp/
 php-zephir/treffynnon/ext/
 
 results.csv
+parsed_results_*
+results_*
