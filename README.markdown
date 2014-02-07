@@ -46,7 +46,7 @@ In the root directory of this project running the following command (turn on unl
 
 Keep an eye out for any build errors that will need to be rectified before continuing.
 
-### Running the tests
+### Executing the tests
 
 Tests are run a number of times so that an average can be taken (by default this is 20 times). Additionally there is a seed value - this is the value that is used to seed the Mandelbrot set calculations. The higher the seed number the more complex the calculation that the programmes must complete.
 
