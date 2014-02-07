@@ -56,7 +56,8 @@ TIMEFORMAT='%E, %e, %S, %U, %P, %M, %t, %K, %D, %p, %X, %Z, %F, %R, %W, %c, %w, 
 
 # Strip spaces from the format string to reduce filesize
 TIMEFORMAT=`echo "$TIMEFORMAT" | tr -d ' '`
-
+echo "Seed: $SEED"
+echo "Iterations: $ITERATIONS"
 for ((n=0;n<$ITERATIONS;n++))
 do
  echo "Iterating"

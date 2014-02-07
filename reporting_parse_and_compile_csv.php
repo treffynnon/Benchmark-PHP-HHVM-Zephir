@@ -7,6 +7,7 @@ if(!isset($argv[1])) {
 
 if(!is_readable($argv[1])) {
     echo "Supplied file path does not exist or is not readable.\n";
+    echo "{$argv[1]}";
     exit(1);
 }
 
