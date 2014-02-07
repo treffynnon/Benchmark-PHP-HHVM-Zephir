@@ -50,6 +50,17 @@ Keep an eye out for any build errors that will need to be rectified before conti
 
 Tests are run a number of times so that an average can be taken (by default this is 20 times). Additionally there is a seed value - this is the value that is used to seed the Mandelbrot set calculations. The higher the seed number the more complex the calculation that the programmes must complete.
 
+#### Setting environment vars
+
+So that the exec script knows where Zephir and HHVM are installed you'll need to specify the following to environment variables. Run the next two commands in your console (after adjusting the paths!):
+
+```bash
+export HPHP_HOME=/path/to/hhvm
+export ZPHP_HOME=/path/to/zephir
+```
+
+You'll only need to run this once per ssh connection/console session.
+
 #### To screen
 
 This can take some time to complete as it does a number of iterations with a static seed value (currently defaults to 1000).
