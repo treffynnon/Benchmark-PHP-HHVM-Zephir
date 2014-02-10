@@ -18,4 +18,7 @@ for iSEED in ${iSEEDS[*]}; do
 done
 
 for file in results_*; do /usr/bin/env php -n -f reporting_parse_and_compile_csv.php "$file"; done
-for file in parsed_*; do /usr/bin/env php -n -f reporting_generate_charts.php "$file"; done
+
+PARSED_FILES=""
+for file in parsed_*; do PARSED_FILES="$PARSED_FILES $file"; done
+/usr/bin/env php -n -f reporting_generate_charts.php "$file";
