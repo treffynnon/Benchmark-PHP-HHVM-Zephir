@@ -50,6 +50,8 @@ Keep an eye out for any build errors that will need to be rectified before conti
 
 Tests are run a number of times so that an average can be taken (by default this is 20 times). Additionally there is a seed value - this is the value that is used to seed the Mandelbrot set calculations. The higher the seed number the more complex the calculation that the programmes must complete.
 
+If you want to ensure that your tests are given favourable scheduling for proc time then review the [`nice` manual page](http://unixhelp.ed.ac.uk/CGI/man-cgi?nice).
+
 #### Setting environment vars
 
 So that the exec script knows where Zephir and HHVM are installed you'll need to specify the following to environment variables. Run the next two commands in your console (after adjusting the paths!):
