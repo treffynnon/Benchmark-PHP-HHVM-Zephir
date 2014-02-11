@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 ARG=1000
-TIMEFORMAT=""
+TIMEFORMAT="-v"
 if [ "$1" != "" ]; then
     ARG="$1"
 fi

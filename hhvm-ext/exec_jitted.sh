@@ -19,4 +19,4 @@ fi
 if [ "$2" != "" ]; then
     TIMEFORMAT="--format=$2"
 fi
-/usr/bin/env time "$TIMEFORMAT" $HPHP_HOME/hphp/hhvm/hhvm -vEval.Jit=1 ../php-php/test.php "$ARG"
+/usr/bin/env time "$TIMEFORMAT" $HPHP_HOME/hphp/hhvm/hhvm -c config.hdf -v "DynamicExtensionPath=`pwd`" -vEval.Jit=1 test.php "$ARG"

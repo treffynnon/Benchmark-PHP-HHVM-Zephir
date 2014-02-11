@@ -5,6 +5,7 @@ if [[ "$HPHP_HOME" == "" ]]; then
     exit 1
 fi
 ARG=1000
+TIMEFORMAT="-v"
 if [ "$1" != "" ]; then
     ARG="$1"
 fi

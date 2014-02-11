@@ -42,7 +42,9 @@ echo " "
 echo " "
 echo "HHVM"
 echo "===="
-exec_dir "## Extension" hhvm-ext
+echo "## Extension"
+exec_dir "### No options" hhvm-ext
+exec_dir "### JITed" hhvm-ext exec_jitted.sh
 
 echo "## PHP userland code"
 exec_dir "### No options" hhvm-php
