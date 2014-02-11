@@ -53,6 +53,8 @@ echo "PHP"
 echo "==="
 exec_dir "## Extension" php-ext
 exec_dir "## Userland code" php-php
+exec_dir "## Extension - no opcache" php-ext exec_no_opcache.sh
+exec_dir "## Userland code- no opcache" php-php exec_no_opcache.sh
 
 
 echo " "
