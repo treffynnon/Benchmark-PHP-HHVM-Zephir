@@ -6,7 +6,7 @@ if [ "$1" != "" ]; then
     iITERATIONS="$1"
 fi
 
-iSEEDS=(100 200 1000 5000)
+iSEEDS=(100 200 1000 2000 5000)
 
 for iSEED in ${iSEEDS[*]}; do
     OUTPUT="results_${iITERATIONS}x${iSEED}.csv"
