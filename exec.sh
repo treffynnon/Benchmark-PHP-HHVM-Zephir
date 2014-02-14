@@ -57,10 +57,13 @@ exec_dir "### JITed" hhvm-hack exec_jitted.sh
 echo " "
 echo "PHP"
 echo "==="
-exec_dir "## Extension" php-ext
-exec_dir "## Userland code" php-php
-exec_dir "## Extension - no opcache" php-ext exec_no_opcache.sh
-exec_dir "## Userland code- no opcache" php-php exec_no_opcache.sh
+echo "## Extension"
+exec_dir "### No options" php-ext exec_no_opcache.sh
+exec_dir "### OPcached" php-ext
+
+echo "## PHP userland code"
+exec_dir "### No options" php-php exec_no_opcache.sh
+exec_dir "### OPcached" php-php
 
 
 echo " "
@@ -71,10 +74,17 @@ exec_dir "" c
 echo " "
 echo "Zephir"
 echo "======"
-echo " "
-exec_dir "## CBLOCK" php-zephir-cblock
-exec_dir "## Optimizer" php-zephir-optimizer
-exec_dir "## Zephir Lang" php-zephir
+echo "## CBLOCK"
+exec_dir "### No options" php-zephir-cblock exec_no_opcache.sh
+exec_dir "### OPcached" php-zephir-cblock
+
+echo "## Optimizer"
+exec_dir "### No options" php-zephir-optimizer exec_no_opcache.sh
+exec_dir "### OPcached" php-zephir-optimizer
+
+echo "## Zephir Lang"
+exec_dir "### No options" php-zephir exec_no_opcache.sh
+exec_dir "### OPcached" php-zephir
 
 echo " "
 echo " "
