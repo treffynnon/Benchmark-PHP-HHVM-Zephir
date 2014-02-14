@@ -50,6 +50,10 @@ echo "## PHP userland code"
 exec_dir "### No options" hhvm-php
 exec_dir "### JITed" hhvm-php exec_jitted.sh
 
+echo "## HACK/PHP++/PHQ userland code"
+exec_dir "### No options" hhvm-hack
+exec_dir "### JITed" hhvm-hack exec_jitted.sh
+
 echo " "
 echo "PHP"
 echo "==="
