@@ -1,121 +1,111 @@
-<!DOCTYPE html>
-<meta charset="utf-8">
-<style>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- Generated with d3-generator.com -->
+<html>
+  <head>
+     <title>Bar Chart</title>
+     <meta http-equiv="X-UA-Compatible" content="IE=9">
+  </head>
+  <body>
+    <div id="chart"></div>
+    <script src="http://d3js.org/d3.v2.min.js"></script>
+    <script>
+function renderChart(data) {
+    var valueLabelWidth = 60; // space reserved for value labels (right)
+    var barHeight = 20; // height of one bar
+    var barLabelWidth = 280; // space reserved for bar labels
+    var barLabelPadding = 5; // padding between bar and bar labels (left)
+    var gridLabelHeight = 18; // space reserved for gridline labels
+    var gridChartOffset = 3; // space between start of grid and first bar
+    var maxBarWidth = 520; // width of the bar with the max value
+     
+    // accessor functions 
+    var barLabel = function(d) {
+        var ret = d.Dir;
+        if(0 != d.Title && '' != d.Title) {
+           ret += ' (' + d.Title + ')';
+        }
+        return ret;
+    };
+    var barValue = function(d) { return parseFloat(d['Time: Elapsed real time (in seconds) (Not in tcsh)']); };
+     
+    // sorting
+    var sortedData = data.sort(function(a, b) {
+      return d3.ascending(barValue(a), barValue(b)); 
+    });
+    
+    var getBarColour = function(d) {
+      if(d.Dir == 'PHP' || d.Dir == 'PHP Ext') {
+        return 'purple';
+      } else if(d.Dir.match(/$PHP Zephir/)) {
+        return 'yellow';
+      }
+      return 'steelblue';
+    };
 
-body {
-  font: 10px sans-serif;
+    // scales
+    var yScale = d3.scale.ordinal().domain(d3.range(0, sortedData.length)).rangeBands([0, sortedData.length * barHeight]);
+    var y = function(d, i) { return yScale(i); };
+    var yText = function(d, i) { return y(d, i) + yScale.rangeBand() / 2; };
+    var x = d3.scale.linear().domain([0, d3.max(sortedData, barValue)]).range([0, maxBarWidth]);
+    // svg container element
+    var chart = d3.select('#chart').append("svg")
+      .attr('width', maxBarWidth + barLabelWidth + valueLabelWidth)
+      .attr('height', gridLabelHeight + gridChartOffset + sortedData.length * barHeight);
+    // grid line labels
+    var gridContainer = chart.append('g')
+      .attr('transform', 'translate(' + barLabelWidth + ',' + gridLabelHeight + ')'); 
+    gridContainer.selectAll("text").data(x.ticks(10)).enter().append("text")
+      .attr("x", x)
+      .attr("dy", -3)
+      .attr("text-anchor", "middle")
+      .text(String);
+    // vertical grid lines
+    gridContainer.selectAll("line").data(x.ticks(10)).enter().append("line")
+      .attr("x1", x)
+      .attr("x2", x)
+      .attr("y1", 0)
+      .attr("y2", yScale.rangeExtent()[1] + gridChartOffset)
+      .style("stroke", "#ccc");
+    // bar labels
+    var labelsContainer = chart.append('g')
+      .attr('transform', 'translate(' + (barLabelWidth - barLabelPadding) + ',' + (gridLabelHeight + gridChartOffset) + ')'); 
+    labelsContainer.selectAll('text').data(sortedData).enter().append('text')
+      .attr('y', yText)
+      .attr('stroke', 'none')
+      .attr('fill', 'black')
+      .attr("dy", ".35em") // vertical-align: middle
+      .attr('text-anchor', 'end')
+      .text(barLabel);
+    // bars
+    var barsContainer = chart.append('g')
+      .attr('transform', 'translate(' + barLabelWidth + ',' + (gridLabelHeight + gridChartOffset) + ')'); 
+    barsContainer.selectAll("rect").data(sortedData).enter().append("rect")
+      .attr('y', y)
+      .attr('height', yScale.rangeBand())
+      .attr('width', function(d) { return x(barValue(d)); })
+      .attr('stroke', 'white')
+      .attr('fill', function(d) {
+        return getBarColour(d);
+      });
+    // bar value labels
+    barsContainer.selectAll("text").data(sortedData).enter().append("text")
+      .attr("x", function(d) { return x(barValue(d)); })
+      .attr("y", yText)
+      .attr("dx", 3) // padding-left
+      .attr("dy", ".35em") // vertical-align: middle
+      .attr("text-anchor", "start") // text-align: right
+      .attr("fill", "black")
+      .attr("stroke", "none")
+      .text(function(d) { return barValue(d); });
+    // start line
+    barsContainer.append("line")
+      .attr("y1", -gridChartOffset)
+      .attr("y2", yScale.rangeExtent()[1] + gridChartOffset)
+      .style("stroke", "#000");
 }
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.bar {
-  fill: steelblue;
-}
-
-.x.axis path {
-  display: none;
-}
-
-</style>
-<body>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script>
-
-var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
-
-var x0 = d3.scale.ordinal()
-    .rangeRoundBands([0, width], .1);
-
-var x1 = d3.scale.ordinal();
-
-var y = d3.scale.linear()
-    .range([height, 0]);
-
-var color = d3.scale.ordinal()
-    .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00","#ff9900","#000000"]);
-
-var xAxis = d3.svg.axis()
-    .scale(x0)
-    .orient("bottom");
-
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left")
-    .tickFormat(d3.format(".2s"));
-
-var svg = d3.select("body").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-d3.csv("graph.csv", function(error, data) {
-  var ageNames = d3.keys(data[0]).filter(function(key) { return key !== "Language"; });
-
-  data.forEach(function(d) {
-    d.ages = ageNames.map(function(name) { return {name: name, value: +d[name]}; });
-  });
-
-  x0.domain(data.map(function(d) { return d.Language; }));
-  x1.domain(ageNames).rangeRoundBands([0, x0.rangeBand()]);
-  y.domain([0, d3.max(data, function(d) { return d3.max(d.ages, function(d) { return d.value; }); })]);
-
-  svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis);
-
-  svg.append("g")
-      .attr("class", "y axis")
-      .call(yAxis)
-    .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", ".71em")
-      .style("text-anchor", "end")
-      .text("Time (seconds)");
-
-  var state = svg.selectAll(".language")
-      .data(data)
-    .enter().append("g")
-      .attr("class", "g")
-      .attr("transform", function(d) { return "translate(" + x0(d.Language) + ",0)"; });
-
-  state.selectAll("rect")
-      .data(function(d) { return d.ages; })
-    .enter().append("rect")
-      .attr("width", x1.rangeBand())
-      .attr("x", function(d) { return x1(d.name); })
-      .attr("y", function(d) { return y(d.value); })
-      .attr("height", function(d) { return height - y(d.value); })
-      .style("fill", function(d) { return color(d.name); });
-
-  var legend = svg.selectAll(".legend")
-      .data(ageNames.slice().reverse())
-    .enter().append("g")
-      .attr("class", "legend")
-      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-
-  legend.append("rect")
-      .attr("x", width - 18)
-      .attr("width", 18)
-      .attr("height", 18)
-      .style("fill", color);
-
-  legend.append("text")
-      .attr("x", width - 24)
-      .attr("y", 9)
-      .attr("dy", ".35em")
-      .style("text-anchor", "end")
-      .text(function(d) { return d; });
-
+d3.csv("parsed_results_20x100.csv", function(data, error) {
+    renderChart(data);
 });
-
-</script>
+    </script>
+  </body>
+</html>
