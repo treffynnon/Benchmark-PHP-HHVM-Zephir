@@ -1,45 +1,32 @@
 <?php
 
-echo "Parsing the file...\n";
+echo "Parsing the files...\n";
 
 $tmp = [];
-$out_filename = 'graph.csv';
+$index_template_filename = 'graph_index_template.html';
+$chart_template_filename = 'graph_chart_template.html';
+$out_filename = 'index.html';
+
+$graph_template = file_get_contents($chart_template_filename);
 
 $i = 1;
 while($i < $argc) {
-    if(($fh = fopen($argv[$i], 'r')) !== false) {
-        $row = 0;
-        while(($data = fgetcsv($fh, 2000, ",")) !== false) {
-            if(++$row == 1 && 1 == $i) {
-                $tmp['Header'][] = 'Language';
-            } else {
-                if(1 == $i) {
-                    $tmp['Header'][] = $data[0] . ' ' . $data[1];
-                }
-                if($row == 2) {
-                    $tmp[$i][] = $data[2];
-                }
-                if($row > 1) {
-                    $tmp[$i][] = $data[4];
-                }
-            }
-        }
+    if(is_readable($argv[$i])) {
+        // we have file we can graph
+        $file_name = $argv[$i];
+        $chart_name = 'chart-' . preg_replace('/[^a-z0-9_]/i', '-', basename($file_name));
+        $chart_title = str_replace(array('parsed', 'results', '.csv', '_'), '', basename($file_name));
+        $chart_title = 'Average of ' . str_replace('x', ' iterations with a seed of ', $chart_title);
+        $tmp[] = str_replace(
+            array('{{ chart_title }}', '{{ file_name }}', '{{ chart_name }}'),
+            array($chart_title, $file_name, $chart_name),
+            $graph_template
+        );
     }
-    unset($data);
-    fclose($fh);
     $i++;
 }
 
-if(($fh = fopen($out_filename, 'w')) !== false) {
-    foreach($tmp as $line) {
-        foreach($line as $key => $field) {
-            if(is_string($field)) {
-                $line[$key] = '"' . $field . '"';
-            }
-        }
-        fwrite($fh, implode(',', $line) . "\n", 2000);
-    }
-}
-fclose($fh);
+$index_template = file_get_contents($index_template_filename);
+file_put_contents($out_filename, str_replace('{{ graphs }}', implode("\n", $tmp), $index_template));
 
 echo "Done\n";

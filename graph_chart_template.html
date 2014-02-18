@@ -1,0 +1,7 @@
+<h2>{{ chart_title }}</h2>
+<div id="{{ chart_name }}"></div>
+<script>
+d3.csv("{{ file_name }}", function(data, error) {
+    renderChart('#{{ chart_name }}', data);
+});
+</script>
