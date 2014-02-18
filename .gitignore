@@ -97,3 +97,5 @@ php-zephir/treffynnon/ext/
 results.csv
 parsed_results_*
 results_*
+results-*
+index.html
