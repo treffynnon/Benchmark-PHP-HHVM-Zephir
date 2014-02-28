@@ -2,12 +2,17 @@
 <!-- Generated with d3-generator.com -->
 <html>
   <head>
-     <title>Bar Chart</title>
+     <title>HHVM vs Zephir vs PHP · Simon Holywell - Web developer in Brighton</title>
+     <meta charset="utf-8">
+     <meta http-equiv="cleartype" content="on">
      <meta http-equiv="X-UA-Compatible" content="IE=9">
+     <meta name="description" content="Charts benchmark HHVM vs Zephir vs PHP">
+     <meta name="author" content="Simon Holywell">
+     <meta name="keywords" content="developer, php, simon holywell, holywell, treffynnon, England, Australia, Brighton, Worthing, Chichester, London">
      <script src="http://d3js.org/d3.v2.min.js"></script>
      <script>
         function renderChart(hook_elem, data) {
-            var valueLabelWidth = 60; // space reserved for value labels (right)
+            var valueLabelWidth = 70; // space reserved for value labels (right)
             var barHeight = 20; // height of one bar
             var barLabelWidth = 280; // space reserved for bar labels
             var barLabelPadding = 5; // padding between bar and bar labels (left)
@@ -103,6 +108,22 @@
         </script>
   </head>
   <body>
+    <h1>HHVM vs Zephir vs PHP</h1>
+      <p>These charts so the speed with which a benchmarking script ran the various
+          PHP runtimes. For more information please see my
+          <a href="http://simonholywell.com/post/2014/02/hhvm-vs-zephir-vs-php-the-showdown.html">related
+              blog post</a> and the
+        <a href="https://github.com/treffynnon/Benchmark-PHP-HHVM-Zephir">relevant
+            GitHub repository</a>.</p>
+      <p>A quick guide to the terms used:</p>
+      <dl>
+          <dt>Iterations</dt>
+          <dd>Number of times the script is executed.</dd>
+          <dt>Seed</dt>
+          <dd>The size of the Mandelbrot set to create. The higher the seed the
+              greater the work involved.</dd>
+      </dl>
     {{ graphs }}
+    <p>Copyright © 2003 - 2014 Simon Holywell. All rights reserved.</p>
   </body>
 </html>
