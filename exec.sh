@@ -25,8 +25,15 @@ exec_dir() {
     echo " "
     echo "$1"
     cd "$2"
+    if [[ -f "setup.sh" ]]; then
+echo "TETSTSTSTS"
+        ./setup.sh
+    fi
     echoerr "\"$2\", \"$1\", $SEED, "
     ./$SCRIPT "$SEED" "$TIMEFORMAT"
+    if [[ -f "teardown.sh" ]]; then
+        ./teardown.sh
+    fi
 
     cd ..
 }
@@ -36,55 +43,86 @@ echo "Treffynnon benchmarker"
 echo "^^^^^^^^^^^^^^^^^^^^^^"
 echo " "
 echo "################################"
-echo "# Treffynnon exec script begin #"
+echo "# Command line benching        #"
 echo "################################"
 echo " "
 echo " "
 echo "HHVM"
 echo "===="
 echo "## Extension"
-exec_dir "### No options" hhvm-ext
-exec_dir "### JITed" hhvm-ext exec_jitted.sh
+#exec_dir "### No options" hhvm-ext
+#exec_dir "### JITed" hhvm-ext exec_jitted.sh
 
 echo "## PHP userland code"
-exec_dir "### No options" hhvm-php
-exec_dir "### JITed" hhvm-php exec_jitted.sh
+#exec_dir "### No options" hhvm-php
+#exec_dir "### JITed" hhvm-php exec_jitted.sh
 
 echo "## HACK/PHP++/PHQ userland code"
-exec_dir "### No options" hhvm-hack
-exec_dir "### JITed" hhvm-hack exec_jitted.sh
+#exec_dir "### No options" hhvm-hack
+#exec_dir "### JITed" hhvm-hack exec_jitted.sh
 
 echo " "
 echo "PHP"
 echo "==="
 echo "## Extension"
-exec_dir "### No options" php-ext exec_no_opcache.sh
-exec_dir "### OPcached" php-ext
+#exec_dir "### No options" php-ext exec_no_opcache.sh
+#exec_dir "### OPcached" php-ext
 
 echo "## PHP userland code"
-exec_dir "### No options" php-php exec_no_opcache.sh
-exec_dir "### OPcached" php-php
+#exec_dir "### No options" php-php exec_no_opcache.sh
+#exec_dir "### OPcached" php-php
 
 
 echo " "
 echo "C"
 echo "="
-exec_dir "" c
+#exec_dir "" c
 
 echo " "
 echo "Zephir"
 echo "======"
 echo "## CBLOCK"
-exec_dir "### No options" php-zephir-cblock exec_no_opcache.sh
-exec_dir "### OPcached" php-zephir-cblock
+#exec_dir "### No options" php-zephir-cblock exec_no_opcache.sh
+#exec_dir "### OPcached" php-zephir-cblock
 
 echo "## Optimizer"
-exec_dir "### No options" php-zephir-optimizer exec_no_opcache.sh
-exec_dir "### OPcached" php-zephir-optimizer
+#exec_dir "### No options" php-zephir-optimizer exec_no_opcache.sh
+#exec_dir "### OPcached" php-zephir-optimizer
 
 echo "## Zephir Lang"
-exec_dir "### No options" php-zephir exec_no_opcache.sh
-exec_dir "### OPcached" php-zephir
+#exec_dir "### No options" php-zephir exec_no_opcache.sh
+#exec_dir "### OPcached" php-zephir
+
+echo " "
+echo " "
+echo "################################"
+echo "# FCGI benchmarking            #"
+echo "################################"
+echo " "
+echo " "
+echo "HHVM"
+echo "===="
+echo "## Extension"
+#exec_dir "### No options" hhvm-ext
+#exec_dir "### JITed" hhvm-ext exec_jitted.sh
+
+echo "## PHP userland code"
+#exec_dir "### No options" hhvm-php
+#exec_dir "### JITed" hhvm-php exec_jitted.sh
+
+echo "## HACK/PHP++/PHQ userland code"
+#exec_dir "### No options" hhvm-hack
+#exec_dir "### JITed" hhvm-hack exec_jitted.sh
+
+echo " "
+echo "PHP"
+echo "==="
+echo "## Extension"
+#exec_dir "### No options" php-ext exec_no_opcache.sh
+#exec_dir "### OPcached" fcgi-php-ext
+
+echo "## PHP userland code"
+exec_dir "### OPcached" fcgi-php-php
 
 echo " "
 echo " "

@@ -8,8 +8,8 @@ if(!$argc) {
    exit(1);
 }
 
-$socket = realpath($argv[1]);
-$file_to_work_on = realpath($argv[2]);
+$socket = $argv[1];
+$file_to_work_on = $argv[2];
 $seed = (int) $argv[3];
 
 $fastCgi = new FastCGI('unix://' . $socket, null);
