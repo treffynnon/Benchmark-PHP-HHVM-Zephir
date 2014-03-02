@@ -99,3 +99,6 @@ parsed_results_*
 results_*
 results-*
 index.html
+composer.phar
+composer.lock
+vendor
