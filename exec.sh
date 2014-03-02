@@ -26,7 +26,6 @@ exec_dir() {
     echo "$1"
     cd "$2"
     if [[ -f "setup.sh" ]]; then
-echo "TETSTSTSTS"
         ./setup.sh
     fi
     echoerr "\"$2\", \"$1\", $SEED, "
@@ -119,7 +118,7 @@ echo "PHP"
 echo "==="
 echo "## Extension"
 #exec_dir "### No options" php-ext exec_no_opcache.sh
-#exec_dir "### OPcached" fcgi-php-ext
+exec_dir "### OPcached" fcgi-php-ext
 
 echo "## PHP userland code"
 exec_dir "### OPcached" fcgi-php-php
