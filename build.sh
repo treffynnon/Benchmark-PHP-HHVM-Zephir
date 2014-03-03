@@ -10,7 +10,8 @@ echo " "
 echo " "
 echo "Clearing previous builds"
 echo "========================"
-read -p "All untracked and .gitignored files will be removed! Are you sure you wish to continue? " -n 1 -r
+echo "All untracked and .gitignored files will be removed! (This includes results from previous runs)"
+read -p "Are you sure you wish to do this (y/n)? " -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
     git clean -fdx
