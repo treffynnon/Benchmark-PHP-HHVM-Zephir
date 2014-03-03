@@ -72,6 +72,7 @@ if [[ ! -f composer.phar ]]; then
     curl -sS https://getcomposer.org/installer | php
     php composer.phar install
 fi
+php composer.phar dumpautoload -o
 
 echo " "
 echo "####################################"
