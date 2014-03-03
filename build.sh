@@ -10,7 +10,7 @@ echo " "
 echo " "
 echo "Clearing previous builds"
 echo "========================"
-read -p "All untracked and .gitignored files will be removed! Are you sure you wish to contiue? " -n 1 -r
+read -p "All untracked and .gitignored files will be removed! Are you sure you wish to continue? " -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
     git clean -fdx
@@ -63,6 +63,15 @@ cd php-zephir
 ./build.sh
 
 cd ..
+
+if [[ ! -f composer.phar ]]; then
+    echo " "
+    echo "Install Composer and Composer supplied dependencies"
+    echo "==================================================="
+    echo " " 
+    curl -sS https://getcomposer.org/installer | php
+    php composer.phar install
+fi
 
 echo " "
 echo "####################################"
