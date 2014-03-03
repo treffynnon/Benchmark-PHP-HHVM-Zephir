@@ -10,7 +10,11 @@ echo " "
 echo " "
 echo "Clearing previous builds"
 echo "========================"
-git clean -fdx
+read -p "All untracked and .gitignored files will be removed! Are you sure you wish to contiue? " -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    git clean -fdx
+fi
 
 echo " "
 echo "Building HHVM extension"
