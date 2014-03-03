@@ -30,7 +30,7 @@ exec_dir() {
     echo " "
     echo "$1"
     cd "$2"
-    if [[ -f "setup.sh" ]]; then
+    if [[ -x "setup.sh" ]]; then
         ./setup.sh
     fi
     echoerr "\"$2\", \"$1\", $SEED, "
@@ -39,7 +39,7 @@ exec_dir() {
      echo "Iterating"
      ./$SCRIPT "$SEED" "$TIMEFORMAT"
     done
-    if [[ -f "teardown.sh" ]]; then
+    if [[ -x "teardown.sh" ]]; then
         ./teardown.sh
     fi
 
