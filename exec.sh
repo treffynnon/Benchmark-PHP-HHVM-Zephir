@@ -5,9 +5,14 @@ if [ "$1" != "" ]; then
     SEED="$1"
 fi
 
-TIMEFORMAT=""
+ITERATIONS=1
 if [ "$2" != "" ]; then
-    TIMEFORMAT="$2"
+    ITERATIONS="$2"
+fi
+
+TIMEFORMAT=""
+if [ "$3" != "" ]; then
+    TIMEFORMAT="$3"
 fi
 
 # Function from SO answer by James Roth
@@ -29,7 +34,11 @@ exec_dir() {
         ./setup.sh
     fi
     echoerr "\"$2\", \"$1\", $SEED, "
-    ./$SCRIPT "$SEED" "$TIMEFORMAT"
+    for ((n=0;n<$ITERATIONS;n++))
+    do
+     echo "Iterating"
+     ./$SCRIPT "$SEED" "$TIMEFORMAT"
+    done
     if [[ -f "teardown.sh" ]]; then
         ./teardown.sh
     fi

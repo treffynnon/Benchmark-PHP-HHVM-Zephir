@@ -58,8 +58,4 @@ TIMEFORMAT='%E, %e, %S, %U, %P, %M, %t, %K, %D, %p, %X, %Z, %F, %R, %W, %c, %w, 
 TIMEFORMAT=`echo "$TIMEFORMAT" | tr -d ' '`
 echo "Seed: $SEED"
 echo "Iterations: $ITERATIONS"
-for ((n=0;n<$ITERATIONS;n++))
-do
- echo "Iterating"
- ./exec.sh "$SEED" "$TIMEFORMAT" > /dev/null 2>> "$OUTPUT"
-done
+ ./exec.sh "$SEED" "$ITERATIONS" "$TIMEFORMAT" > /dev/null 2>> "$OUTPUT"
