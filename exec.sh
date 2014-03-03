@@ -33,10 +33,11 @@ exec_dir() {
     if [[ -x "setup.sh" ]]; then
         ./setup.sh
     fi
-    echoerr "\"$2\", \"$1\", $SEED, "
+    
     for ((n=0;n<$ITERATIONS;n++))
     do
      echo "Iterating"
+     echoerr "\"$2\", \"$1\", $SEED, "
      ./$SCRIPT "$SEED" "$TIMEFORMAT"
     done
     if [[ -x "teardown.sh" ]]; then
