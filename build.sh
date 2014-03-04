@@ -20,7 +20,7 @@ fi
 echo " "
 echo "Building HHVM extension"
 echo "======================="
-cd hhvm-ext
+cd cli-hhvm-ext
 ./build.sh
 
 cd ..
@@ -28,7 +28,7 @@ cd ..
 echo " "
 echo "Building PHP extension"
 echo "======================"
-cd php-ext
+cd cli-php-ext
 ./build.sh
 
 cd ..
@@ -44,7 +44,7 @@ cd ..
 echo " "
 echo "Zephir: CBLOCK"
 echo "=============="
-cd php-zephir-cblock
+cd cli-php-zephir-cblock
 ./build.sh
 
 cd ..
@@ -52,7 +52,7 @@ cd ..
 echo " "
 echo "Zephir: Optimizer"
 echo "================="
-cd php-zephir-optimizer
+cd cli-php-zephir-optimizer
 ./build.sh
 
 cd ..
@@ -60,7 +60,7 @@ cd ..
 echo " "
 echo "Zephir: Zephir lang"
 echo "==================="
-cd php-zephir
+cd cli-php-zephir
 ./build.sh
 
 cd ..
