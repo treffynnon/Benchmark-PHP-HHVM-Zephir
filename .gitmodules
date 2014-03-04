@@ -1,0 +1,3 @@
+[submodule "fcgicli"]
+	path = fcgicli
+	url = git@github.com:treffynnon/fcgicli.git
