@@ -36,7 +36,7 @@ cd ..
 echo " "
 echo "Building plain C"
 echo "================"
-cd c
+cd cli-c
 ./build.sh
 
 cd ..
