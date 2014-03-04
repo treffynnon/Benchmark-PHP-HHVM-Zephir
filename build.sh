@@ -65,15 +65,15 @@ cd php-zephir
 
 cd ..
 
-if [[ ! -f composer.phar ]]; then
-    echo " "
-    echo "Install Composer and Composer supplied dependencies"
-    echo "==================================================="
-    echo " " 
-    curl -sS https://getcomposer.org/installer | php
-    php composer.phar install
-fi
-php composer.phar dumpautoload -o
+echo " "
+echo "Setup FCGI CLI client"
+echo "==================================================="
+echo " "
+git submodule init
+git submodule update
+cd fcgicli
+make
+cd ..
 
 echo " "
 echo "####################################"
