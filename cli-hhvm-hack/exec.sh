@@ -12,4 +12,4 @@ fi
 if [ "$2" != "" ]; then
     TIMEFORMAT="--format=$2"
 fi
-/usr/bin/env time "$TIMEFORMAT" $HPHP_HOME/hphp/hhvm/hhvm test.hh "$ARG"
+/usr/bin/env time "$TIMEFORMAT" $HPHP_HOME/hphp/hhvm/hhvm "`pwd`/test.hh" "$ARG"
