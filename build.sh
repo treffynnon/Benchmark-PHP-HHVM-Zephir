@@ -72,6 +72,8 @@ echo " "
 git submodule init
 git submodule update
 cd fcgicli
+git checkout master
+git pull origin master
 make
 cd ..
 
