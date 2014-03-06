@@ -1,7 +1,7 @@
 PHP vs HHVM vs Zephir
 =====================
 
-This benchmark is using the [Mandelbrot set](http://en.wikipedia.org/wiki/Mandelbrot_set) as it's task.
+This benchmark is using the [Mandelbrot set](http://en.wikipedia.org/wiki/Mandelbrot_set) as its task.
 
 ![Image of the Mandelbrot set](http://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Mandel_zoom_00_mandelbrot_set.jpg/320px-Mandel_zoom_00_mandelbrot_set.jpg)
 
