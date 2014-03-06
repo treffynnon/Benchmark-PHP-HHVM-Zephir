@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 echo "Starting FCGI process"
-$HPHP_HOME/hphp/hhvm/hhvm --mode daemon -vServer.Type=fastcgi -vServer.FileSocket="/tmp/treffynnon_bench.socket" -vEval.Jit=0 &
+$HPHP_HOME/hphp/hhvm/hhvm --mode server -vServer.Type=fastcgi -vServer.FileSocket="/tmp/treffynnon_bench.socket" -vEval.Jit=0 > /dev/null 2>&1 &
 echo "Sleep for a bit to allow process to ready itself"
 sleep 5
 
