@@ -1,6 +1,8 @@
 #! /usr/bin/env bash
 echo "Starting FCGI process"
-$HPHP_HOME/hphp/hhvm/hhvm --mode daemon -c ../cli-hhvm-ext/config.hdf -v "DynamicExtensionPath=`pwd`/../cli-hhvm-ext" -vServer.Type=fastcgi -vServer.FileSocket="/tmp/treffynnon_bench.socket" -vEval.Jit=1 &
+H_CONFIG=$(readlink -f "`pwd`/../cli-hhvm-ext/config.hdf")
+H_EXT_PATH=$(readlink -f "`pwd`/../cli-hhvm-ext")
+$HPHP_HOME/hphp/hhvm/hhvm --mode daemon -c "$H_CONFIG" -v "DynamicExtensionPath=$H_EXT_PATH" -vServer.Type=fastcgi -vServer.FileSocket="/tmp/treffynnon_bench.socket" -vEval.Jit=1 &
 echo "Sleep for a bit to allow process to ready itself"
 sleep 5
 
