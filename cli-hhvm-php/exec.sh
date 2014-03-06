@@ -12,4 +12,4 @@ fi
 if [ "$2" != "" ]; then
     TIMEFORMAT="--format=$2"
 fi
-/usr/bin/env time "$TIMEFORMAT" $HPHP_HOME/hphp/hhvm/hhvm ../php-php/test.php "$ARG"
+/usr/bin/env time "$TIMEFORMAT" $HPHP_HOME/hphp/hhvm/hhvm ../cli-php-php/test.php "$ARG"

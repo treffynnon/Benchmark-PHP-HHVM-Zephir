@@ -92,7 +92,7 @@ exec_dir "### OPcached" cli-php-php
 echo " "
 echo "C"
 echo "="
-exec_dir "" c
+exec_dir "" cli-c
 
 echo " "
 echo "Zephir"
