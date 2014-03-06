@@ -23,16 +23,22 @@ echoerr() {
 
 exec_dir() {
     SCRIPT="exec.sh"
+    SETUP="setup.sh"
 
     if [ "" != "$3" ]; then
         SCRIPT="$3"
     fi
+
+    if [ "" != "$4" ]; then
+        SETUP="$4"
+    fi
+
     echo " "
     echo "$1"
     cd "$2"
-    if [[ -x "setup.sh" ]]; then
+    if [[ -x "$SETUP" ]]; then
         # Pass in script name as argument for any required warm up
-        ./setup.sh "$SCRIPT"
+        ./$SETUP "$SCRIPT"
     fi
     
     for ((n=0;n<$ITERATIONS;n++))
@@ -113,33 +119,41 @@ echo " "
 echo "HHVM"
 echo "===="
 echo "## Extension"
+exec_dir "### No options" fcgi-hhvm-ext exec.sh setup_no_options.sh
 exec_dir "### JITed" fcgi-hhvm-ext
 
 echo "## PHP userland code"
+exec_dir "### No options" fcgi-hhvm-php exec.sh setup_no_options.sh
 exec_dir "### JITed" fcgi-hhvm-php
 
 echo "## HACK/PHP++/PHQ userland code"
+exec_dir "### No options" fcgi-hhvm-hack exec.sh setup_no_options.sh
 exec_dir "### JITed" fcgi-hhvm-hack
 
 echo " "
 echo "PHP"
 echo "==="
 echo "## Extension"
+exec_dir "### No options" fcgi-php-ext exec.sh setup_no_options.sh
 exec_dir "### OPcached" fcgi-php-ext
 
 echo "## PHP userland code"
+exec_dir "### No options" fcgi-php-php exec.sh setup_no_options.sh
 exec_dir "### OPcached" fcgi-php-php
 
 echo " "
 echo "Zephir"
 echo "======"
 echo "## CBLOCK"
+exec_dir "### No options" fcgi-php-zephir exec.sh setup_no_options.sh
 exec_dir "### OPcached" fcgi-php-zephir-cblock
 
 echo "## Optimizer"
+exec_dir "### No options" fcgi-php-zephir-optimizer exec.sh setup_no_options.sh
 exec_dir "### OPcached" fcgi-php-zephir-optimizer
 
 echo "## Zephir Lang"
+exec_dir "### No options" fcgi-php-zephir exec.sh setup_no_options.sh
 exec_dir "### OPcached" fcgi-php-zephir
 
 echo " "
