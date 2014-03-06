@@ -31,7 +31,8 @@ exec_dir() {
     echo "$1"
     cd "$2"
     if [[ -x "setup.sh" ]]; then
-        ./setup.sh
+        # Pass in script name as argument for any required warm up
+        ./setup.sh "$SCRIPT"
     fi
     
     for ((n=0;n<$ITERATIONS;n++))
