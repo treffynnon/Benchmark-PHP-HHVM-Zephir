@@ -7,4 +7,5 @@ fi
 if [ "$2" != "" ]; then
     TIMEFORMAT="--format=$2"
 fi
-/usr/bin/env time "$TIMEFORMAT" ../fcgicli/fcgicli "/tmp/treffynnon_bench.socket" "`pwd`/../fcgi-php-php/test.php" "$ARG"
+H_PHP_SCRIPT_PATH=$(readlink -f "`pwd`/../fcgi-php-php/test.php")
+/usr/bin/env time "$TIMEFORMAT" ../fcgicli/fcgicli "/tmp/treffynnon_bench.socket" "$H_PHP_SCRIPT_PATH" "$ARG"
