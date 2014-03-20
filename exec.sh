@@ -144,6 +144,10 @@ echo "## PHP userland code"
 exec_dir "### No options" fcgi-php-php exec.sh setup_no_options.sh
 exec_dir "### OPcached" fcgi-php-php
 
+echo "## QB compiled"
+exec_dir "### No options" fcgi-php-qb exec.sh setup_no_options.sh
+exec_dir "### OPcached" fcgi-php-qb
+
 echo " "
 echo "Zephir"
 echo "======"
