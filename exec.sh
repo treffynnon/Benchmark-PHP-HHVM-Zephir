@@ -88,6 +88,9 @@ echo "## PHP userland code"
 exec_dir "### No options" cli-php-php exec_no_opcache.sh
 exec_dir "### OPcached" cli-php-php
 
+echo "## QB compiled"
+exec_dir "### No options" cli-php-qb exec_no_opcache.sh
+exec_dir "### OPcached" cli-php-qb
 
 echo " "
 echo "C"
