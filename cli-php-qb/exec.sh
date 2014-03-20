@@ -7,4 +7,4 @@ fi
 if [ "$2" != "" ]; then
     TIMEFORMAT="--format=$2"
 fi
-/usr/bin/env time "$TIMEFORMAT" /usr/bin/env php -n -d "extension=phpqb.so" -d "zend_extension=opcache.so" -d "opcache.enable_cli=1" -f test.php "$ARG"
+/usr/bin/env time "$TIMEFORMAT" /usr/bin/env php -n -d "extension=qb.so" -d "zend_extension=opcache.so" -d "opcache.enable_cli=1" -f test.php "$ARG"
