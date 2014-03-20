@@ -1,5 +1,5 @@
-PHP vs HHVM vs Zephir
-=====================
+PHP vs HHVM vs Zephir vs QB
+===========================
 
 This benchmark is using the [Mandelbrot set](http://en.wikipedia.org/wiki/Mandelbrot_set) as its task.
 
@@ -24,6 +24,7 @@ To run the builds you will need to first ensure you have built the following fro
  - [PHP](https://github.com/php/php)
  - [HHVM](https://github.com/facebook/hhvm/wiki#wiki-building-hhvm)
  - [Zephir](http://zephir-lang.com/install.html)
+ - [QB](https://github.com/chung-leong/qb)
 
 It is best to build PHP from source instead of using a precompiled package to level the playing field. You must build HHVM from source otherwise the HHVM extension won't be installable.
 
