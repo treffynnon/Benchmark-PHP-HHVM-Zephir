@@ -6,7 +6,7 @@
 
 /* The Computer Language Benchmarks Game
    http://benchmarksgame.alioth.debian.org/
-   contributed by Thomas GODART (based on Greg Buchholz's C program) 
+   contributed by Thomas GODART (based on Greg Buchholz's C program)
    modified by anon
 */
 
@@ -28,7 +28,7 @@
 */
 function write_mandelbrot_to_stream($w, $h, $bitmap) {
     if($bitmap)
-        printf($stream, "P4\n%d %d\n", $w, $h);
+        printf("P4\n%d %d\n", $w, $h);
 
     $bit_num = 128;
     $byte_acc = 0;
@@ -94,7 +94,7 @@ function treffynnon_mandelbrot_to_file($filename, $w, $h, $binary_output) {
         return false;
 
     ob_start();
-    write_mandelbrot_to_stream((int) $w, (int) $h, $stream, (bool) $binary_output);
+    write_mandelbrot_to_stream((int) $w, (int) $h, (bool) $binary_output);
     fwrite($stream, ob_get_clean());
     return true;
 }
