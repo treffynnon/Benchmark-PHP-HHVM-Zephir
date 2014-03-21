@@ -20,7 +20,6 @@
 * @local char $byte_acc
 * @local int32 $bit_num
 * @local string $ochars
-* @local string $pack_format
 * @local float64 $.*
 *
 * @return bool
@@ -38,7 +37,6 @@ function write_mandelbrot_to_stream($w, $h, $bitmap) {
     $xfac = 2.0 / $w;
 
     $ochars = ' .:-;!/>)|&IH%*#';
-    $pack_format = 'c*';
 
     for ($y = 0 ; $y < $h ; ++$y) {
        $Ci = $y * $yfac - 1.0;
@@ -57,7 +55,7 @@ function write_mandelbrot_to_stream($w, $h, $bitmap) {
 
           if($bitmap) {
               if ($bit_num === 1) {
-                 echo $tmp = pack($pack_format, $byte_acc);
+                 echo $byte_acc;
                  $bit_num = 128;
                  $byte_acc = 0;
               } else {
@@ -73,7 +71,7 @@ function write_mandelbrot_to_stream($w, $h, $bitmap) {
        }
        if($bitmap) {
            if ($bit_num !== 128) {
-              echo $tmp = pack($pack_format, $byte_acc);
+              echo $byte_acc;
               $bit_num = 128;
               $byte_acc = 0;
            }
