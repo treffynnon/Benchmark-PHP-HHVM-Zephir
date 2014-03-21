@@ -103,4 +103,4 @@ function treffynnon_mandelbrot_to_mem($w, $h, $binary_output) {
     return ob_get_clean();
 }
 
-echo treffynnon_mandelbrot_to_mem((int) $argv[1], (int) $argv[1], true);
+echo treffynnon_mandelbrot_to_mem((int) $argv[1], (int) $argv[1], false);
